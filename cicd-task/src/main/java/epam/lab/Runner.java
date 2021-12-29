@@ -1,5 +1,4 @@
-import epam.lab.Greeter;
-import epam.lab.MessageReader;
+package epam.lab;
 
 public class Runner {
     public static void main(String[] args) {
