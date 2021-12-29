@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MessageReader {
-    private MessageReader() { }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReader.class);
 
     public static List<String> getMessages() {
