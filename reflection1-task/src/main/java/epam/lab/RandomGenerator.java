@@ -1,7 +1,7 @@
 package epam.lab;
 import annotations.Service;
 
-@Service(id = "RandomGenerator", primary = true)
+@Service(id = Constants.RANDOM_GENERATOR, primary = true)
 public class RandomGenerator {
     public static int generation() {
         int startNumber = 0;

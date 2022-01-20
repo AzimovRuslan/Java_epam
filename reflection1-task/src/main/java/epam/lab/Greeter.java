@@ -4,7 +4,7 @@ import annotations.InjectDependency;
 import annotations.Service;
 import interfaces.StringCreator;
 
-@Service(id = "Greeter", dependsOn = {"RandomGenerator"})
+@Service(id = Constants.GREETER, dependsOn = {Constants.RANDOM_GENERATOR})
 public class Greeter implements StringCreator {
     private int randomNumber;
 

@@ -1,4 +1,5 @@
 import epam.lab.ApplicationContext;
+import epam.lab.Constants;
 import epam.lab.Greeter;
 import epam.lab.RandomGenerator;
 import interfaces.StringCreator;
@@ -13,17 +14,17 @@ public class Tests {
 
     @Test
     public void getBean_id_true1() {
-        assertTrue(applicationContext.getBean("RandomGenerator") instanceof RandomGenerator);
+        assertTrue(applicationContext.getBean(Constants.RANDOM_GENERATOR) instanceof RandomGenerator);
     }
 
     @Test
     public void getBean_id_true2() {
-        assertTrue(applicationContext.getBean("Greeter") instanceof Greeter);
+        assertTrue(applicationContext.getBean(Constants.GREETER) instanceof Greeter);
     }
 
     @Test
     public void getBean_id_false() {
-        assertFalse(applicationContext.getBean("RandomGenerator") instanceof Greeter);
+        assertFalse(applicationContext.getBean(Constants.RANDOM_GENERATOR) instanceof Greeter);
     }
 
     @Test
@@ -53,27 +54,27 @@ public class Tests {
 
     @Test
     public void getBean_idAndImplementationClass_true1() {
-        assertTrue(applicationContext.getBean("RandomGenerator", RandomGenerator.class) instanceof RandomGenerator);
+        assertTrue(applicationContext.getBean(Constants.RANDOM_GENERATOR, RandomGenerator.class) instanceof RandomGenerator);
     }
 
     @Test
     public void getBean_idAndImplementationClass_true2() {
-        assertTrue(applicationContext.getBean("Greeter", Greeter.class) instanceof Greeter);
+        assertTrue(applicationContext.getBean(Constants.GREETER, Greeter.class) instanceof Greeter);
     }
 
     @Test
     public void getBean_idAndImplementationClass_false() {
-        assertFalse(applicationContext.getBean("Greeter", Greeter.class) instanceof RandomGenerator);
+        assertFalse(applicationContext.getBean(Constants.GREETER, Greeter.class) instanceof RandomGenerator);
     }
 
     @Test
     public void getBean_idAndImplementationInterface_true1() {
-        assertTrue(applicationContext.getBean("Greeter", StringCreator.class) instanceof Greeter);
+        assertTrue(applicationContext.getBean(Constants.GREETER, StringCreator.class) instanceof Greeter);
     }
 
     @Test
     public void getBean_idAndImplementationInterface_false() {
-        assertFalse(applicationContext.getBean("Greeter", StringCreator.class) instanceof RandomGenerator);
+        assertFalse(applicationContext.getBean(Constants.GREETER, StringCreator.class) instanceof RandomGenerator);
     }
 
     @Test
