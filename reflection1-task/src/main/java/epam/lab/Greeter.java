@@ -16,7 +16,7 @@ public class Greeter implements StringCreator {
     @Override
     public String stringCreate() {
         RandomGenerator randomGenerator = new RandomGenerator();
-        setRandomNumber(randomGenerator.generation());
+        setRandomNumber(randomGenerator.getRandomNumber());
         return (Constants.HELLO_WORLD + randomNumber);
     }
 }
