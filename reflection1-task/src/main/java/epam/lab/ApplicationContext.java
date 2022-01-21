@@ -24,7 +24,6 @@ public class ApplicationContext {
     }
 
     public Object getBean(String id) {
-        @CheckForNull
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             Service service = clazz.getAnnotation(Service.class);
@@ -37,14 +36,17 @@ public class ApplicationContext {
             }
         }
         try {
-            return classObj.newInstance();
+            try {
+                return classObj.newInstance();
+            } catch (NullPointerException e) {
+                return e.getMessage();
+            }
         } catch (IllegalAccessException | InstantiationException e) {
             return e.getMessage();
         }
     }
 
     public Object getBean(Class<?> implementationClassOrInterface) {
-        @CheckForNull
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             if (implementationClassOrInterface.isAssignableFrom(clazz)) {
@@ -56,7 +58,11 @@ public class ApplicationContext {
             }
         }
         try {
-            return classObj.newInstance();
+            try {
+                return classObj.newInstance();
+            } catch (NullPointerException e) {
+                return e.getMessage();
+            }
         } catch (IllegalAccessException | InstantiationException e) {
             return e.getMessage();
         }
@@ -64,7 +70,6 @@ public class ApplicationContext {
 
 
     public Object getBean(String id, Class<?> implementationClassOrInterface) {
-        @CheckForNull
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             Service service = clazz.getAnnotation(Service.class);
@@ -77,7 +82,11 @@ public class ApplicationContext {
             }
         }
         try {
-            return classObj.newInstance();
+            try {
+                return classObj.newInstance();
+            } catch (NullPointerException e) {
+                return e.getMessage();
+            }
         } catch (IllegalAccessException | InstantiationException e) {
             return e.getMessage();
         }
