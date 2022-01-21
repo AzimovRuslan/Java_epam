@@ -29,7 +29,7 @@ public class ApplicationContext {
             if (service.id().equals(id)) {
                 try {
                     classObj = Class.forName(clazz.getName());
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | NullPointerException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -47,7 +47,7 @@ public class ApplicationContext {
             if (implementationClassOrInterface.isAssignableFrom(clazz)) {
                 try {
                     classObj = Class.forName(clazz.getName());
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | NullPointerException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -66,7 +66,7 @@ public class ApplicationContext {
             if (service.id().equals(id) && implementationClassOrInterface.isAssignableFrom(clazz)) {
                 try {
                     classObj = Class.forName(clazz.getName());
-                } catch (ClassNotFoundException e) {
+                } catch (ClassNotFoundException | NullPointerException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
