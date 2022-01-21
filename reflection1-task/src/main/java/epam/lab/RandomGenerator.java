@@ -3,7 +3,7 @@ import annotations.Service;
 
 @Service(id = Constants.RANDOM_GENERATOR, primary = true)
 public class RandomGenerator {
-    public static int generation() {
+    public int generation() {
         int startNumber = 0;
         int finishNumber = 100;
 
