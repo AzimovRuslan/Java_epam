@@ -6,6 +6,7 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.CheckForNull;
 import java.util.*;
 
 public class ApplicationContext {
@@ -22,6 +23,7 @@ public class ApplicationContext {
         classes.add(implementationClass);
     }
 
+    @CheckForNull
     public Object getBean(String id) {
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
@@ -29,7 +31,7 @@ public class ApplicationContext {
             if (service.id().equals(id)) {
                 try {
                     classObj = Class.forName(clazz.getName());
-                } catch (ClassNotFoundException | NullPointerException e) {
+                } catch (ClassNotFoundException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -41,13 +43,14 @@ public class ApplicationContext {
         }
     }
 
+    @CheckForNull
     public Object getBean(Class<?> implementationClassOrInterface) {
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             if (implementationClassOrInterface.isAssignableFrom(clazz)) {
                 try {
                     classObj = Class.forName(clazz.getName());
-                } catch (ClassNotFoundException | NullPointerException e) {
+                } catch (ClassNotFoundException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
@@ -59,6 +62,7 @@ public class ApplicationContext {
         }
     }
 
+    @CheckForNull
     public Object getBean(String id, Class<?> implementationClassOrInterface) {
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
@@ -66,7 +70,7 @@ public class ApplicationContext {
             if (service.id().equals(id) && implementationClassOrInterface.isAssignableFrom(clazz)) {
                 try {
                     classObj = Class.forName(clazz.getName());
-                } catch (ClassNotFoundException | NullPointerException e) {
+                } catch (ClassNotFoundException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
