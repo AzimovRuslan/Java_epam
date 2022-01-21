@@ -6,25 +6,21 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.CheckForNull;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class ApplicationContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationContext.class);
-    private List<Class<?>> classes = new ArrayList<>();
+    private final List<Class<?>> classes = new ArrayList<>();
     private static final Reflections REFLECTIONS = new Reflections("epam.lab");
     private final Set<Class<?>> annotatedClasses = REFLECTIONS.getTypesAnnotatedWith(Service.class);
-
-    public ApplicationContext() {
-
-    }
 
     public void registerBean(Class<?> implementationClass) {
         classes.add(implementationClass);
     }
 
     public Object getBean(String id) {
-        Class classObj = null;
+        Class<?> classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             Service service = clazz.getAnnotation(Service.class);
             if (service.id().equals(id)) {
@@ -35,15 +31,17 @@ public class ApplicationContext {
                 }
             }
         }
+
         try {
-            return classObj.newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
+            assert classObj != null;
+            return classObj.getDeclaredConstructor().newInstance();
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             return e.getMessage();
         }
     }
 
     public Object getBean(Class<?> implementationClassOrInterface) {
-        Class classObj = null;
+        Class<?> classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             if (implementationClassOrInterface.isAssignableFrom(clazz)) {
                 try {
@@ -53,16 +51,18 @@ public class ApplicationContext {
                 }
             }
         }
+
         try {
-            return classObj.newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
+            assert classObj != null;
+            return classObj.getDeclaredConstructor().newInstance();
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             return e.getMessage();
         }
     }
 
 
     public Object getBean(String id, Class<?> implementationClassOrInterface) {
-        Class classObj = null;
+        Class<?> classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             Service service = clazz.getAnnotation(Service.class);
             if (service.id().equals(id) && implementationClassOrInterface.isAssignableFrom(clazz)) {
@@ -73,9 +73,11 @@ public class ApplicationContext {
                 }
             }
         }
+
         try {
-            return classObj.newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
+            assert classObj != null;
+            return classObj.getDeclaredConstructor().newInstance();
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             return e.getMessage();
         }
     }
@@ -86,14 +88,14 @@ public class ApplicationContext {
             Service service = clazz.getAnnotation(Service.class);
             if (service.dependsOn().length == 0) {
                 try {
-                    beans.addFirst(clazz.newInstance());
-                } catch (IllegalAccessException | InstantiationException e) {
+                    beans.addFirst(clazz.getDeclaredConstructor().newInstance());
+                } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
                     LOGGER.error(e.getMessage());
                 }
             } else {
                 try {
-                    beans.addLast(clazz.newInstance());
-                } catch (IllegalAccessException | InstantiationException e) {
+                    beans.addLast(clazz.getDeclaredConstructor().newInstance());
+                } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
                     LOGGER.error(e.getMessage());
                 }
             }
