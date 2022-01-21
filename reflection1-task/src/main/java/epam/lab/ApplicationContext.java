@@ -36,11 +36,7 @@ public class ApplicationContext {
             }
         }
         try {
-            try {
-                return classObj.newInstance();
-            } catch (NullPointerException e) {
-                return e.getMessage();
-            }
+            return classObj.newInstance();
         } catch (IllegalAccessException | InstantiationException e) {
             return e.getMessage();
         }
@@ -58,11 +54,7 @@ public class ApplicationContext {
             }
         }
         try {
-            try {
-                return classObj.newInstance();
-            } catch (NullPointerException e) {
-                return e.getMessage();
-            }
+            return classObj.newInstance();
         } catch (IllegalAccessException | InstantiationException e) {
             return e.getMessage();
         }
@@ -82,11 +74,7 @@ public class ApplicationContext {
             }
         }
         try {
-            try {
-                return classObj.newInstance();
-            } catch (NullPointerException e) {
-                return e.getMessage();
-            }
+            return classObj.newInstance();
         } catch (IllegalAccessException | InstantiationException e) {
             return e.getMessage();
         }
