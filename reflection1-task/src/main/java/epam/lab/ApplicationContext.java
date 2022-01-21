@@ -23,8 +23,8 @@ public class ApplicationContext {
         classes.add(implementationClass);
     }
 
-    @CheckForNull
     public Object getBean(String id) {
+        @CheckForNull
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             Service service = clazz.getAnnotation(Service.class);
@@ -43,8 +43,8 @@ public class ApplicationContext {
         }
     }
 
-    @CheckForNull
     public Object getBean(Class<?> implementationClassOrInterface) {
+        @CheckForNull
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             if (implementationClassOrInterface.isAssignableFrom(clazz)) {
@@ -62,8 +62,9 @@ public class ApplicationContext {
         }
     }
 
-    @CheckForNull
+
     public Object getBean(String id, Class<?> implementationClassOrInterface) {
+        @CheckForNull
         Class classObj = null;
         for (Class<?> clazz : annotatedClasses) {
             Service service = clazz.getAnnotation(Service.class);
