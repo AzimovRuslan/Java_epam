@@ -1,48 +1,42 @@
 package epam.lab;
 import java.util.*;
 
-public class Cache {
-    Deque<SumCalculator> cache = new ArrayDeque<>();
-
+public class Cache<T> {
+    private Deque<T> cache = new ArrayDeque<>();
     private static final int MAX_SIZE = 3;
 
-    public Deque<SumCalculator> getCache() {
+    public Deque<T> getCache() {
         return cache;
     }
 
-    public void lruCache(int firstNumber, int secondNumber) {
-        SumCalculator calculator = new SumCalculator(firstNumber, secondNumber);
-        calculator.calculation();
-
-        int result = calculator.getResult();
-        SumCalculator oldCalculator = null;
+    public void lruCaching(T element) {
+        T oldElement = null;
 
         if (cache.size() < MAX_SIZE) {
             if (!cache.isEmpty()) {
-                for (SumCalculator sumCalculator : cache) {
-                    if (sumCalculator.getResult() == result) {
-                        oldCalculator = sumCalculator;
+                for (T cacheElement : cache) {
+                    if (cacheElement == element) {
+                        oldElement = cacheElement;
                     }
                 }
 
-                if (oldCalculator != null) {
-                    cache.remove(oldCalculator);
+                if (oldElement != null) {
+                    cache.remove(oldElement);
                 }
             }
-            cache.addLast(calculator);
         } else {
-            for (SumCalculator sumCalculator : cache) {
-                if (sumCalculator.getResult() == result) {
-                    oldCalculator = sumCalculator;
+            for (T cacheElement : cache) {
+                if (cacheElement == element) {
+                    oldElement = cacheElement;
                 }
             }
 
-            if (oldCalculator != null) {
-                cache.remove(oldCalculator);
+            if (oldElement != null) {
+                cache.remove(oldElement);
             } else {
                 cache.removeFirst();
             }
-            cache.addLast(calculator);
         }
+        cache.addLast(element);
     }
 }

@@ -13,10 +13,11 @@ public class SumCalculator {
     public SumCalculator(int firstNumber, int secondNumber) {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
+        result = calculation();
     }
 
-    public void calculation() {
-        result = firstNumber + secondNumber;
+    public int calculation() {
+        return firstNumber + secondNumber;
     }
 
     @Override
