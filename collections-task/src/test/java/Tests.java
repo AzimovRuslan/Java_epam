@@ -1,4 +1,4 @@
-import epam.lab.Cache;
+import epam.lab.LRUCache;
 import epam.lab.SumCalculator;
 import org.testng.annotations.Test;
 
@@ -39,7 +39,7 @@ public class Tests {
         testCache.add(4);
         testCache.add(5);
 
-        Cache<Integer> lru = new Cache<>();
+        LRUCache<Integer> lru = new LRUCache<>();
         lru.lruCaching(new SumCalculator(0, 1).calculation());
         lru.lruCaching(new SumCalculator(0, 2).calculation());
         lru.lruCaching(new SumCalculator(0, 3).calculation());
@@ -54,7 +54,7 @@ public class Tests {
         Deque<Integer> testCache = new ArrayDeque<>();
         testCache.add(1);
 
-        Cache<Integer> lru = new Cache<>();
+        LRUCache<Integer> lru = new LRUCache<>();
         lru.lruCaching(new SumCalculator(0, 1).calculation());
         lru.lruCaching(new SumCalculator(0, 1).calculation());
 
@@ -68,7 +68,7 @@ public class Tests {
         testCache.add(2);
         testCache.add(3);
 
-        Cache<Integer> lru = new Cache<>();
+        LRUCache<Integer> lru = new LRUCache<>();
         lru.lruCaching(new SumCalculator(0, 1).calculation());
         lru.lruCaching(new SumCalculator(0, 2).calculation());
         lru.lruCaching(new SumCalculator(0, 3).calculation());
@@ -85,7 +85,7 @@ public class Tests {
         testCache.add(4);
         testCache.add(3);
 
-        Cache<Integer> lru = new Cache<>();
+        LRUCache<Integer> lru = new LRUCache<>();
         lru.lruCaching(new SumCalculator(0, 1).calculation());
         lru.lruCaching(new SumCalculator(0, 2).calculation());
         lru.lruCaching(new SumCalculator(0, 3).calculation());
@@ -100,7 +100,7 @@ public class Tests {
         Deque<Integer> testCache = new ArrayDeque<>();
         testCache.add(4);
 
-        Cache<Integer> lru = new Cache<>();
+        LRUCache<Integer> lru = new LRUCache<>();
         lru.lruCaching(new SumCalculator(0, 4).calculation());
 
         assertArrayEquals(testCache.toArray(), lru.getCache().toArray());

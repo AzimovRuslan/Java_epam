@@ -1,7 +1,7 @@
 package epam.lab;
 import java.util.*;
 
-public class Cache<T> {
+public class LRUCache<T> {
     private Deque<T> cache = new ArrayDeque<>();
     private static final int MAX_SIZE = 3;
 
