@@ -1,15 +1,10 @@
 package epam.lab;
 import java.util.*;
 
-public class SumCalculator implements Comparator {
+public class SumCalculator {
     private int firstNumber;
     private int secondNumber;
-    private Date date = new Date();
     private int result;
-
-    public Date getDate() {
-        return date;
-    }
 
     public int getResult() {
         return result;
@@ -22,12 +17,6 @@ public class SumCalculator implements Comparator {
 
     public void calculation() {
         result = firstNumber + secondNumber;
-    }
-
-
-    @Override
-    public int compare(Object o1, Object o2) {
-        return 0;
     }
 
     @Override
