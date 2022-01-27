@@ -14,48 +14,30 @@ public class LFUCacheN <K> {
     public void lfuCaching(K result, int counter) {
         if (cache.isEmpty()) {
             cache.put(result, counter);
-        }
-
-        if (!cache.isEmpty()) {
-            if (cache.containsKey(result)) {
-                counter = cache.get(result) + 1;
-                cache.remove(result);
-            }
         } else {
-            int minCounters = getValueFirstEntry(cache);
-            K keyForRemove = getKeyFirstEntry(cache);
-
-            for (Map.Entry<K, Integer> entry : cache.entrySet()) {
-                if (entry.getValue() < minCounters) {
-                    minCounters = entry.getValue();
-                    keyForRemove = entry.getKey();
+            if (cache.containsKey(result)) {
+                for (Map.Entry<K, Integer> entry : cache.entrySet()) {
+                    if (entry.getKey() == result) {
+                        entry.setValue(cache.get(result) + 1);
+                    }
                 }
+            } else {
+                if (cache.size() >= MAX_SIZE) {
+                    int minCounters = getValueFirstEntry(cache);
+                    K keyForRemove = getKeyFirstEntry(cache);
+
+                    for (Map.Entry<K, Integer> entry : cache.entrySet()) {
+                        if (entry.getValue() < minCounters) {
+                            minCounters = entry.getValue();
+                            keyForRemove = entry.getKey();
+                        }
+                    }
+                    cache.remove(keyForRemove);
+                }
+                cache.put(result, counter);
             }
-            cache.remove(keyForRemove);
-            counter = minCounters + 1;
+
         }
-        cache.put(result, counter);
-
-
-//        if (cache.size() < MAX_SIZE) {
-//            if (cache.containsKey(result)) {
-//                counter = cache.get(result) + 1;
-//                cache.remove(result);
-//            }
-//        } else {
-//            int minCounters = getValueFirstEntry(cache);
-//            K keyForRemove = getKeyFirstEntry(cache);
-//
-//            for (Map.Entry<K, Integer> entry : cache.entrySet()) {
-//                if (entry.getValue() < minCounters) {
-//                    minCounters = entry.getValue();
-//                    keyForRemove = entry.getKey();
-//                }
-//            }
-//            cache.remove(keyForRemove);
-//            counter = minCounters + 1;
-//        }
-//        cache.put(result, counter);
     }
 
     private int getValueFirstEntry(Map<K, Integer> map) {
