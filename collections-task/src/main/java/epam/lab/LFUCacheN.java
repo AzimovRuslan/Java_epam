@@ -1,6 +1,7 @@
 package epam.lab;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LFUCacheN <K> {
     private Map<K, Integer> cache = new LinkedHashMap<>();
@@ -24,7 +25,28 @@ public class LFUCacheN <K> {
             } else {
                 if (cache.size() >= MAX_SIZE) {
                     int minCounters = getValueFirstEntry(cache);
+
+                    Map<K, Integer> entryForRemove = new LinkedHashMap<>();
+//
+//                    cache.forEach((key, value) -> {
+//                        if (value < minCounters) {
+//                            entryForRemove.put(key, value);
+//                        }
+//                    });
+
+//
+//
+//                            cache.entrySet()
+//                            .stream()
+//                            .filter(x -> x.getValue() < minCounters)
+//                            .forEach(k -> entryForRemove.put(k.getKey(), k.getValue()));
+////                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+//                    K keyForRemove = entryForRemove.keySet().iterator().next();
                     K keyForRemove = getKeyFirstEntry(cache);
+
+
+
 
                     for (Map.Entry<K, Integer> entry : cache.entrySet()) {
                         if (entry.getValue() < minCounters) {
@@ -32,7 +54,12 @@ public class LFUCacheN <K> {
                             keyForRemove = entry.getKey();
                         }
                     }
-                    cache.remove(keyForRemove);
+                    entryForRemove.put(keyForRemove, minCounters);
+
+
+                    K q = entryForRemove.keySet().iterator().next();
+
+                    cache.remove(q);
                 }
                 cache.put(result, counter);
             }
@@ -50,3 +77,10 @@ public class LFUCacheN <K> {
         return counters.get(0);
     }
 }
+
+//                    for (Map.Entry<K, Integer> entry : cache.entrySet()) {
+//                        if (entry.getValue() < minCounters) {
+//                            minCounters = entry.getValue();
+//                            keyForRemove = entry.getKey();
+//                        }
+//                    }

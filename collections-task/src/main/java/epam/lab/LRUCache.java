@@ -18,7 +18,8 @@ public class LRUCache<T> {
 //
         if (!cache.isEmpty()) {
             if (cache.size() < MAX_SIZE) {
-                List<T> list = cache.stream()
+                List<T> list = cache
+                        .stream()
                         .filter(x -> x == element)
                         .collect(Collectors.toList());
 
@@ -30,10 +31,13 @@ public class LRUCache<T> {
                     cache.remove(oldElement);
                 }
             } else {
-                for (T cacheElement : cache) {
-                    if (cacheElement == element) {
-                        oldElement = cacheElement;
-                    }
+                List<T> list = cache
+                        .stream()
+                        .filter(x -> x == element)
+                        .collect(Collectors.toList());
+
+                if (!list.isEmpty()) {
+                    oldElement = list.get(0);
                 }
 
                 if (oldElement != null) {
