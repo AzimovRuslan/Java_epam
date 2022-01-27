@@ -1,5 +1,8 @@
 package epam.lab;
+import javax.swing.text.html.Option;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LRUCache<T> {
     private Deque<T> cache = new ArrayDeque<>();
@@ -10,10 +13,23 @@ public class LRUCache<T> {
     }
 
     public void lruCaching(T element) {
+//        Optional<T> oldElement = null;
         T oldElement = null;
+//
+        if (!cache.isEmpty()) {
+            if (cache.size() < MAX_SIZE) {
+                List<T> list = cache.stream()
+                        .filter(x -> x == element)
+                        .collect(Collectors.toList());
 
-        if (cache.size() < MAX_SIZE) {
-            if (!cache.isEmpty()) {
+                if (!list.isEmpty()) {
+                    oldElement = list.get(0);
+                }
+
+                if (oldElement != null) {
+                    cache.remove(oldElement);
+                }
+            } else {
                 for (T cacheElement : cache) {
                     if (cacheElement == element) {
                         oldElement = cacheElement;
@@ -22,19 +38,9 @@ public class LRUCache<T> {
 
                 if (oldElement != null) {
                     cache.remove(oldElement);
+                } else {
+                    cache.removeFirst();
                 }
-            }
-        } else {
-            for (T cacheElement : cache) {
-                if (cacheElement == element) {
-                    oldElement = cacheElement;
-                }
-            }
-
-            if (oldElement != null) {
-                cache.remove(oldElement);
-            } else {
-                cache.removeFirst();
             }
         }
         cache.addLast(element);
