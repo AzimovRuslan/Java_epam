@@ -1,11 +1,9 @@
 package epam.lab;
-import java.util.*;
 
 public class SumCalculator {
-    private int firstNumber;
-    private int secondNumber;
-    private int result;
-    private int counter = 1;
+    private final int firstNumber;
+    private final int secondNumber;
+    private final int result;
 
     public int getResult() {
         return result;
@@ -15,14 +13,6 @@ public class SumCalculator {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
         result = calculation();
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void increaseCounter() {
-        this.counter++;
     }
 
     public int calculation() {

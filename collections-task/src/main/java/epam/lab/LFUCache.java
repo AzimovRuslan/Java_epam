@@ -1,79 +1,57 @@
 package epam.lab;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-public class LFUCache <K> {
-    private static int initialCapacity = 10;
+public class LFUCache<K> {
+    private final Map<K, Integer> cache = new LinkedHashMap<>();
+    private static final int NUMBER_OF_USES = 1;
 
-    private Map<K, CacheEntry> cacheMap = new LinkedHashMap<>();
+    private static final int MAX_SIZE = 3;
 
-    public Map<K, CacheEntry> getCacheMap() {
-        return cacheMap;
+    public Map<K, Integer> getCache() {
+        return cache;
     }
 
-    public LFUCache(int initialCapacity)
-    {
-        this.initialCapacity = initialCapacity;
-    }
+    public void lfuCaching(K result) {
+        if (!cache.isEmpty()) {
+            if (cache.containsKey(result)) {
+                cache.entrySet().forEach(k -> {
+                    if (k.getKey() == result) {
+                        k.setValue(cache.get(result) + 1);
+                    }
+                });
+            } else {
+                if (cache.size() >= MAX_SIZE) {
+                    final int[] minCounters = {getValueFirstEntry(cache)};
 
-    public void addCacheEntry(K key, String data)
-    {
-        if(!isFull())
-        {
-            CacheEntry temp = new CacheEntry();
-            temp.setData(data);
-            temp.setFrequency(0);
+                    K keyForRemove = null;
 
-            cacheMap.put(key, temp);
-        }
-        else
-        {
-            K entryKeyToBeRemoved = getLFUKey();
-            cacheMap.remove(entryKeyToBeRemoved);
+                    cache.forEach((key, value) -> {
+                        if (value < minCounters[0]) {
+                            minCounters[0] = value;
+                        }
+                    });
 
-            CacheEntry temp = new CacheEntry();
-            temp.setData(data);
-            temp.setFrequency(0);
+                    Optional<K> key = cache.entrySet()
+                            .stream()
+                            .filter(x -> minCounters[0] == x.getValue())
+                            .map(Map.Entry::getKey)
+                            .findFirst();
 
-            cacheMap.put(key, temp);
-        }
-    }
-
-    public K getLFUKey()
-    {
-        K key = null;
-        int minFreq = Integer.MAX_VALUE;
-
-        for(Map.Entry<K, CacheEntry> entry : cacheMap.entrySet())
-        {
-            if(minFreq > entry.getValue().getFrequency())
-            {
-                key = entry.getKey();
-                minFreq = entry.getValue().getFrequency();
+                    if (key.isPresent()) {
+                        keyForRemove = key.get();
+                    }
+                    cache.remove(keyForRemove);
+                }
+                cache.put(result, NUMBER_OF_USES);
             }
+        } else {
+            cache.put(result, NUMBER_OF_USES);
         }
-
-        return key;
     }
 
-    public String getCacheEntry(K key)
-    {
-        if(cacheMap.containsKey(key))  // cache hit
-        {
-            CacheEntry temp = cacheMap.get(key);
-            temp.setFrequency(temp.getFrequency() + 1);
-            cacheMap.put(key, temp);
-            return temp.getData();
-        }
-        return null; // cache miss
-    }
-
-    public boolean isFull()
-    {
-        if(cacheMap.size() == initialCapacity)
-            return true;
-
-        return false;
+    private int getValueFirstEntry(Map<K, Integer> map) {
+        List<Integer> counters = new ArrayList<>(map.values());
+        return counters.get(0);
     }
 }
