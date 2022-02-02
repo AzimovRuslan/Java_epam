@@ -3,11 +3,20 @@ package epam.lab;
 public class Subscriber {
     private Event event;
 
-    public Subscriber(EventChannel eventChannel) {
-        event = eventChannel.getEvent();
+    public Subscriber(Event event) {
+        this.event = event;
     }
 
-    public String readEventMessage() {
+    public Event getEvent() {
+        return event;
+    }
+
+    @Override
+    public String toString() {
         return String.valueOf(event);
     }
+
+    //    public String readEventMessage() {
+//        return String.valueOf(event);
+//    }
 }

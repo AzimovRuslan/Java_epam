@@ -6,13 +6,16 @@ import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 public class PropertiesReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesReader.class);
 
     Collection<Object> values;
+    List<Integer> counts = new ArrayList<>();
 
     public void readValues() throws IOException {
         Properties properties = new Properties();
@@ -25,7 +28,19 @@ public class PropertiesReader {
         }
     }
 
+    public void fillCounts() {
+        for (Object obj : values) {
+            String stringCount = (String) obj;
+            int count = Integer.parseInt(stringCount);
+            counts.add(count);
+        }
+    }
+
     public Collection<Object> getValues() {
         return values;
+    }
+
+    public List<Integer> getCounts() {
+        return counts;
     }
 }
