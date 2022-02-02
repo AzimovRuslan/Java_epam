@@ -16,7 +16,9 @@ public class SumCalculator {
     }
 
     public int calculation() {
-        return firstNumber + secondNumber;
+        synchronized (this) {
+            return firstNumber + secondNumber;
+        }
     }
 
     @Override

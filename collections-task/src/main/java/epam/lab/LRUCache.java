@@ -11,39 +11,33 @@ public class LRUCache<T> {
     }
 
     public void lruCaching(T element) {
-        T oldElement = null;
+        synchronized (this) {
+            T oldElement = null;
 
-        if (!cache.isEmpty()) {
-            if (cache.size() < MAX_SIZE) {
-                List<T> list = cache
-                        .stream()
-                        .filter(x -> x == element)
-                        .collect(Collectors.toList());
-
-                if (!list.isEmpty()) {
-                    oldElement = list.get(0);
-                }
-
-                if (oldElement != null) {
-                    cache.remove(oldElement);
-                }
-            } else {
-                List<T> list = cache
-                        .stream()
-                        .filter(x -> x == element)
-                        .collect(Collectors.toList());
-
-                if (!list.isEmpty()) {
-                    oldElement = list.get(0);
-                }
-
-                if (oldElement != null) {
-                    cache.remove(oldElement);
+            if (!cache.isEmpty()) {
+                if (cache.size() < MAX_SIZE) {
+                    cache.stream()
+                            .filter(element::equals)
+                            .findFirst()
+                            .ifPresent(cache::remove);
                 } else {
-                    cache.removeFirst();
+                    List<T> list = cache
+                            .stream()
+                            .filter(element::equals)
+                            .collect(Collectors.toList());
+
+                    if (!list.isEmpty()) {
+                        oldElement = list.get(0);
+                    }
+
+                    if (oldElement != null) {
+                        cache.remove(oldElement);
+                    } else {
+                        cache.removeFirst();
+                    }
                 }
             }
+            cache.addLast(element);
         }
-        cache.addLast(element);
     }
 }

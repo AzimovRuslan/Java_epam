@@ -13,45 +13,39 @@ public class LFUCache<K> {
     }
 
     public void lfuCaching(K result) {
-        if (!cache.isEmpty()) {
-            if (cache.containsKey(result)) {
-                cache.entrySet().forEach(k -> {
-                    if (k.getKey() == result) {
-                        k.setValue(cache.get(result) + 1);
-                    }
-                });
-            } else {
-                if (cache.size() >= MAX_SIZE) {
-                    final int[] minCounters = {getValueFirstEntry(cache)};
-
-                    K keyForRemove = null;
-
-                    cache.forEach((key, value) -> {
-                        if (value < minCounters[0]) {
-                            minCounters[0] = value;
+        synchronized (this) {
+            if (!cache.isEmpty()) {
+                if (cache.containsKey(result)) {
+                    cache.entrySet().forEach(k -> {
+                        if (k.getKey().equals(result)) {
+                            k.setValue(cache.get(result) + 1);
                         }
                     });
+                } else {
+                    if (cache.size() >= MAX_SIZE) {
+                        final int[] minCounters = {getValueFirstEntry(cache)};
 
-                    Optional<K> key = cache.entrySet()
-                            .stream()
-                            .filter(x -> minCounters[0] == x.getValue())
-                            .map(Map.Entry::getKey)
-                            .findFirst();
+                        cache.forEach((key, value) -> {
+                            if (value < minCounters[0]) {
+                                minCounters[0] = value;
+                            }
+                        });
 
-                    if (key.isPresent()) {
-                        keyForRemove = key.get();
+                        cache.entrySet()
+                                .stream()
+                                .filter(x -> minCounters[0] == x.getValue())
+                                .findFirst()
+                                .ifPresent(cache.entrySet()::remove);
                     }
-                    cache.remove(keyForRemove);
+                    cache.put(result, NUMBER_OF_USES);
                 }
+            } else {
                 cache.put(result, NUMBER_OF_USES);
             }
-        } else {
-            cache.put(result, NUMBER_OF_USES);
         }
     }
 
     private int getValueFirstEntry(Map<K, Integer> map) {
-        List<Integer> counters = new ArrayList<>(map.values());
-        return counters.get(0);
+        return map.values().iterator().next();
     }
 }
