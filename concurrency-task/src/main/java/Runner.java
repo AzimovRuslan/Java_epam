@@ -49,5 +49,10 @@ public class Runner {
                 }
             }
         }
+
+        System.out.println("------------------------------------------");
+
+        Publisher publisher = new Publisher(RandomGenerator.eventGeneration(), RandomGenerator.messageGeneration());
+        EventChannel eventChannel = new EventChannel(publisher);
     }
 }
