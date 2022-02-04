@@ -1,12 +1,12 @@
 package epam.lab.realization.queue;
 
-import epam.lab.ArticleChannel;
 import epam.lab.realization.synchronize.SRPublisher;
-
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BQRPublisher implements Runnable{
     private SRPublisher publisher;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BQRPublisher.class);
 
     public BQRPublisher(SRPublisher publisher) {
         this.publisher = publisher;
@@ -18,7 +18,7 @@ public class BQRPublisher implements Runnable{
             Thread.sleep(1000);
             publisher.getChannel().publishedArticleBlockingQueue(publisher);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 }

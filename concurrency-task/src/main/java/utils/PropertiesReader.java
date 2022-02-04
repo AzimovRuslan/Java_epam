@@ -36,10 +36,6 @@ public class PropertiesReader {
         }
     }
 
-    public Collection<Object> getValues() {
-        return values;
-    }
-
     public List<Integer> getCounts() {
         return counts;
     }

@@ -1,12 +1,13 @@
 package epam.lab.realization.queue;
 
 import epam.lab.ArticleChannel;
-import epam.lab.realization.synchronize.SRPublisher;
 import epam.lab.realization.synchronize.SRSubscriber;
-
-import java.util.concurrent.BlockingQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BQRSubscriber extends SRSubscriber {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BQRSubscriber.class);
+
     public BQRSubscriber(String name, ArticleChannel channel, String publisherName) {
         super(name, channel, publisherName);
     }
@@ -14,14 +15,10 @@ public class BQRSubscriber extends SRSubscriber {
     @Override
     public void run() {
         try {
-            BlockingQueue<SRPublisher> blockingQueuePublishers = getChannel().getBlockingQueuePublishers();
             Thread.sleep(1000);
-            if (blockingQueuePublishers.take().getName().equals(this.getPublisherName())) {
-                blockingQueuePublishers.take();
-            }
-//            getChannel().getArticleFromBlockingQueue(this);
+            getChannel().getArticleFromBlockingQueue(this);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 }
