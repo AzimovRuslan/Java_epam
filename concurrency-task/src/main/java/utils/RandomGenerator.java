@@ -1,25 +1,29 @@
 package utils;
 
-import epam.lab.Event;
-
 public class RandomGenerator {
-    private static final String[] events = {"Rock festival", "Weapons exhibition", "Modern art museum", "Cinema"};
+    private static final String[] publisherNames = {"Ruslan", "Kirill", "Vadim"};
+    private static final String[] subscriberNames = {"Pavel", "Vadim", "Artem", "Veronika", "Kate", "Valeriy"};
+    private static final String[] articles = {"Animals", "Flowers", "I love java", "EPAM", "Minsk", "High school"};
 
-    public static Event eventGeneration() {
-        int randomElement = generationRandomNumber(0, events.length);
+    public static String publisherNameGeneration() {
+        int randomElement = generationRandomNumber(0, publisherNames.length);
 
-        return new Event(events[randomElement]);
+        return publisherNames[randomElement];
     }
 
-    public static String messageGeneration() {
-        int randomTime = generationRandomNumber(6, 12);
+    public static String subscriberNameGeneration() {
+        int randomElement = generationRandomNumber(0, subscriberNames.length);
 
-        return "Event start at " + randomTime + " pm";
+        return subscriberNames[randomElement];
     }
 
-    private static int generationRandomNumber(int start, int finish) {
-        int startNumber = start;
-        int finishNumber = finish;
+    public static String articleGeneration() {
+        int randomElement = generationRandomNumber(0, articles.length - 1);
+
+        return articles[randomElement];
+    }
+
+    private static int generationRandomNumber(int startNumber, int finishNumber) {
         return startNumber + (int) (Math.random() * finishNumber);
     }
 }
