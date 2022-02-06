@@ -1,26 +1,24 @@
 package utils;
 
+import constatnts.Constants;
+
 public class RandomGenerator {
-    private static final String[] publisherNames = {"Ruslan", "Kirill", "Vadim"};
-    private static final String[] subscriberNames = {"Pavel", "Vadim", "Artem", "Veronika", "Kate", "Valeriy"};
-    private static final String[] articles = {"Animals", "Flowers", "I love java", "EPAM", "Minsk", "High school"};
-
     public static String publisherNameGeneration() {
-        int randomElement = generationRandomNumber(0, publisherNames.length);
+        int randomElement = generationRandomNumber(0, Constants.PUBLISHER_NAMES.length);
 
-        return publisherNames[randomElement];
+        return Constants.PUBLISHER_NAMES[randomElement];
     }
 
     public static String subscriberNameGeneration() {
-        int randomElement = generationRandomNumber(0, subscriberNames.length);
+        int randomElement = generationRandomNumber(0, Constants.SUBSCRIBER_NAMES.length);
 
-        return subscriberNames[randomElement];
+        return Constants.SUBSCRIBER_NAMES[randomElement];
     }
 
     public static String articleGeneration() {
-        int randomElement = generationRandomNumber(0, articles.length - 1);
+        int randomElement = generationRandomNumber(0, Constants.ARTICLES.length - 1);
 
-        return articles[randomElement];
+        return Constants.ARTICLES[randomElement];
     }
 
     private static int generationRandomNumber(int startNumber, int finishNumber) {

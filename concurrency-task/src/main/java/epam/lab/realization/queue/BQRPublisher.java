@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BQRPublisher implements Runnable{
-    private SRPublisher publisher;
+    private final SRPublisher publisher;
     private static final Logger LOGGER = LoggerFactory.getLogger(BQRPublisher.class);
 
     public BQRPublisher(SRPublisher publisher) {

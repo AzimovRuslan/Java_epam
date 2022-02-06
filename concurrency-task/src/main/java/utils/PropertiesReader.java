@@ -13,6 +13,7 @@ import java.util.Properties;
 
 public class PropertiesReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesReader.class);
+    private static final String PATH = "src\\main\\resources\\configuration.properties";
 
     Collection<Object> values;
     List<Integer> counts = new ArrayList<>();
@@ -20,7 +21,7 @@ public class PropertiesReader {
     public void readValues() throws IOException {
         Properties properties = new Properties();
 
-        try (FileReader fileReader = new FileReader("src\\main\\resources\\configuration.properties")) {
+        try (FileReader fileReader = new FileReader(PATH)) {
             properties.load(fileReader);
             values = properties.values();
         } catch (FileNotFoundException e) {

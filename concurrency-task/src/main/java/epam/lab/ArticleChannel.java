@@ -1,5 +1,6 @@
 package epam.lab;
 
+import constatnts.Constants;
 import epam.lab.realization.queue.BQRSubscriber;
 import epam.lab.realization.synchronize.SRPublisher;
 import epam.lab.realization.synchronize.SRSubscriber;
@@ -15,10 +16,11 @@ public class ArticleChannel {
     private static final Logger LOGGER = LoggerFactory.getLogger(ArticleChannel.class);
     private List<SRPublisher> publishers;
     private BlockingQueue<SRPublisher> blockingQueuePublishers;
+    private static final int QUEUE_CAPACITY = 1;
 
     public ArticleChannel() {
         publishers = new ArrayList<>();
-        blockingQueuePublishers = new ArrayBlockingQueue<>(1, true);
+        blockingQueuePublishers = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
     }
 
     /**
@@ -26,7 +28,7 @@ public class ArticleChannel {
      */
     public void publishedArticleList(SRPublisher publisher) {
             publishers.add(publisher);
-            LOGGER.info(String.format("%s published an publication %s", publisher.getName(), publisher.getArticle()));
+            LOGGER.info(publisher.getName() + Constants.PUBLISHED_ARTICLE + publisher.getArticle());
     }
 
     /**
@@ -35,7 +37,7 @@ public class ArticleChannel {
     public void getArticleFromList(SRSubscriber subscriber) {
             for (SRPublisher publisher : publishers) {
                 if (publisher.getName().equals(subscriber.getPublisherName())) {
-                    LOGGER.info(String.format("%s received the article %s", subscriber, publisher.getArticle()));
+                    LOGGER.info(subscriber + Constants.RECEIVED_ARTICLE + publisher.getArticle());
                 }
             }
     }
@@ -45,13 +47,13 @@ public class ArticleChannel {
      */
     public void publishedArticleBlockingQueue(SRPublisher publisher) {
             blockingQueuePublishers.add(publisher);
-            LOGGER.info(String.format("%s published an article %s", publisher.getName(), publisher.getArticle()));
+            LOGGER.info(publisher.getName() + Constants.PUBLISHED_ARTICLE + publisher.getArticle());
     }
 
     /**
      * Get article from blocking queue
      */
     public void getArticleFromBlockingQueue(BQRSubscriber subscriber) throws InterruptedException {
-            LOGGER.info(subscriber + " received the article " + blockingQueuePublishers.take().getArticle());
+            LOGGER.info(subscriber + Constants.RECEIVED_ARTICLE + blockingQueuePublishers.take().getArticle());
     }
 }
