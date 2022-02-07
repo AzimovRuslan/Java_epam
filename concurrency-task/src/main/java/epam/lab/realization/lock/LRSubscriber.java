@@ -24,6 +24,7 @@ public class LRSubscriber extends SRSubscriber {
             getChannel().getArticleFromList(this);
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
+            Thread.currentThread().interrupt();
         } finally {
             locker.unlock();
         }

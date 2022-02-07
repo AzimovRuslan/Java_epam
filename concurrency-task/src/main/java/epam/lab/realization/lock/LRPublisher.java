@@ -24,6 +24,7 @@ public class LRPublisher extends SRPublisher {
             getChannel().publishedArticleList(this);
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
+            Thread.currentThread().interrupt();
         } finally {
             locker.unlock();
         }

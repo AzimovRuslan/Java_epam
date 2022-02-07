@@ -37,6 +37,7 @@ public class SRSubscriber implements Runnable {
                 channel.getArticleFromList(this);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }

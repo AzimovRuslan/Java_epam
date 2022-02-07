@@ -19,6 +19,7 @@ public class BQRPublisher implements Runnable{
             publisher.getChannel().publishedArticleBlockingQueue(publisher);
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 }

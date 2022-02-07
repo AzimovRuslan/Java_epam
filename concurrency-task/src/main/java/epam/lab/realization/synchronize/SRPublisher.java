@@ -37,6 +37,7 @@ public class SRPublisher implements Runnable{
                 channel.publishedArticleList(this);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }
