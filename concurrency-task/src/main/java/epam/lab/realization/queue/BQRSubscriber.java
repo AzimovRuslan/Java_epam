@@ -15,7 +15,6 @@ public class BQRSubscriber extends SRSubscriber {
     @Override
     public void run() {
         try {
-            Thread.sleep(1000);
             getChannel().getArticleFromBlockingQueue(this);
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());

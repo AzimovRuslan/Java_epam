@@ -1,15 +1,11 @@
 package epam.lab.realization.synchronize;
 
 import epam.lab.ArticleChannel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SRSubscriber implements Runnable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SRSubscriber.class);
-
-    private String name;
-    private ArticleChannel channel;
-    private String publisherName;
+    private final String name;
+    private final ArticleChannel channel;
+    private final String publisherName;
 
     public SRSubscriber(String name, ArticleChannel channel, String publisherName) {
         this.name = name;
@@ -21,10 +17,6 @@ public class SRSubscriber implements Runnable {
         return publisherName;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public ArticleChannel getChannel() {
         return channel;
     }
@@ -32,13 +24,7 @@ public class SRSubscriber implements Runnable {
     @Override
     public void run() {
         synchronized (this) {
-            try {
-                Thread.sleep(1000);
-                channel.getArticleFromList(this);
-            } catch (InterruptedException e) {
-                LOGGER.error(e.getMessage());
-                Thread.currentThread().interrupt();
-            }
+            channel.getArticleFromList(this);
         }
     }
 
