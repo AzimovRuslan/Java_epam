@@ -30,6 +30,6 @@ public class SRSubscriber implements Runnable {
 
     @Override
     public String toString() {
-        return "Subscriber " + name + " subscribed to " + publisherName;
+        return "example.Subscriber " + name + " subscribed to " + publisherName;
     }
 }
