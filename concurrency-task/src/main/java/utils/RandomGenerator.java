@@ -1,7 +1,7 @@
 package utils;
 
 import constatnts.Constants;
-import example.SomeEvent;
+import example.events.SomeEvent;
 
 public class RandomGenerator {
     public static String publisherNameGeneration() {
@@ -29,5 +29,11 @@ public class RandomGenerator {
         int randomElement = generationRandomNumber(0, Constants.RandomEvent.length);
 
         return Constants.RandomEvent[randomElement];
+    }
+
+    public static String subscriberSurnameGeneration() {
+        int randomElement = generationRandomNumber(0, Constants.SUBSCRIBER_SURNAMES.length);
+
+        return Constants.SUBSCRIBER_SURNAMES[randomElement];
     }
 }

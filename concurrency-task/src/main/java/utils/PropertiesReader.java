@@ -15,8 +15,18 @@ public class PropertiesReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesReader.class);
     private static final String PATH = "src\\main\\resources\\configuration.properties";
 
-    Collection<Object> values;
-    List<Integer> counts = new ArrayList<>();
+    private Collection<Object> values;
+    private List<Integer> counts;
+
+    public PropertiesReader() {
+        counts = new ArrayList<>();
+        try {
+            readValues();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+        fillCounts();
+    }
 
     public void readValues() throws IOException {
         Properties properties = new Properties();

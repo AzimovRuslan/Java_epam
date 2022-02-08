@@ -1,4 +1,6 @@
-package example;
+package example.events;
+
+import example.realization.synchronize.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,6 @@ public class SomeEvent {
 
     @Override
     public String toString() {
-        return "example.SomeEvent{" +
-                "subscribers=" + subscribers +
-                '}';
+        return this.getClass().getName();
     }
 }
