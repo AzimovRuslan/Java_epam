@@ -1,11 +1,10 @@
-package example.realization.synchronize;
+package epam.lab.realization.synchronize;
 
 import annotations.Event;
-import example.EventChannel;
-import example.events.SomeEvent;
+import epam.lab.EventChannel;
+import epam.lab.events.SomeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.PropertiesReader;
 import utils.RandomGenerator;
 
 import java.util.ArrayList;
@@ -14,14 +13,12 @@ import java.util.Map;
 
 public class Publisher implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Publisher.class);
-    private SomeEvent event;
-    private EventChannel eventChannel;
-    private PropertiesReader propertiesReader;
+    private final SomeEvent event;
+    private final EventChannel eventChannel;
 
     public Publisher(SomeEvent event, EventChannel eventChannel) {
         this.event = event;
         this.eventChannel = eventChannel;
-        propertiesReader = new PropertiesReader();
     }
 
     public EventChannel getEventChannel() {
@@ -46,7 +43,7 @@ public class Publisher implements Runnable {
             Map<SomeEvent, List<String>> newsMap = eventChannel.getNews();
 
             if (someEventId.equals(eventId)) {
-                String news = RandomGenerator.articleGeneration();
+                String news = RandomGenerator.messageGeneration();
                 List<String> list = new ArrayList<>();
 
                 for (Map.Entry<SomeEvent, List<String>> entry : newsMap.entrySet()) {
@@ -58,7 +55,7 @@ public class Publisher implements Runnable {
                 list.add(news);
 
                 eventChannel.registerNewsAboutEvent(someEvent, list);
-                LOGGER.info(String.format("register news (%s) for " + someEvent.getClass(), news));
+                LOGGER.info(String.format("added news (%s) for event " + someEvent.getClass(), news));
             }
         }
     }

@@ -1,8 +1,6 @@
 package utils;
-
-import epam.lab.ArticleChannel;
-import example.*;
-import example.realization.synchronize.Subscriber;
+import epam.lab.EventChannel;
+import epam.lab.realization.synchronize.Subscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,17 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubscribersGenerator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleChannel.class);
-    private PropertiesReader propertiesReader;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribersGenerator.class);
+//    private final PropertiesReader propertiesReader;
     private List<Subscriber> rockSubscribers;
     private List<Subscriber> museumSubscribers;
-    private EventChannel eventChannel;
+    private final EventChannel eventChannel;
+    private int subCount;
 
-    public SubscribersGenerator(EventChannel eventChannel) {
-        propertiesReader = new PropertiesReader();
+
+    public SubscribersGenerator(EventChannel eventChannel, int subCount) {
+//        propertiesReader = new PropertiesReader();
         rockSubscribers = new ArrayList<>();
         museumSubscribers = new ArrayList<>();
         this.eventChannel = eventChannel;
+        this.subCount = subCount;
         subscribersGeneration();
     }
 
@@ -34,8 +35,8 @@ public class SubscribersGenerator {
 
     private void subscribersGeneration() {
         Thread subscribersGenerationThread = new Thread(() -> {
-            int numberRockFestivalSubscribers = RandomGenerator.generationRandomNumber(0, propertiesReader.getCounts().get(1) + 1);
-            int numberArtMuseumSubscribers = propertiesReader.getCounts().get(1) - numberRockFestivalSubscribers;
+            int numberRockFestivalSubscribers = RandomGenerator.generationRandomNumber(0, subCount + 1);
+            int numberArtMuseumSubscribers = subCount - numberRockFestivalSubscribers;
 
             while (rockSubscribers.size() < numberRockFestivalSubscribers) {
                 rockSubscribers.add(new Subscriber(RandomGenerator.subscriberNameGeneration(), RandomGenerator.subscriberSurnameGeneration(), eventChannel));

@@ -1,6 +1,6 @@
-package example.events;
+package epam.lab.events;
 
-import example.realization.synchronize.Subscriber;
+import epam.lab.realization.synchronize.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;

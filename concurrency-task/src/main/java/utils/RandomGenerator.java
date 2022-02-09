@@ -1,24 +1,19 @@
 package utils;
 
 import constatnts.Constants;
-import example.events.SomeEvent;
+import epam.lab.events.SomeEvent;
 
 public class RandomGenerator {
-    public static String publisherNameGeneration() {
-        int randomElement = generationRandomNumber(0, Constants.PUBLISHER_NAMES.length);
-
-        return Constants.PUBLISHER_NAMES[randomElement];
-    }
+    private static int number = 0;
 
     public static String subscriberNameGeneration() {
-        int randomElement = generationRandomNumber(0, Constants.SUBSCRIBER_NAMES.length);
-        return Constants.SUBSCRIBER_NAMES[randomElement];
+        int randomElement = generationRandomNumber(0, Constants.RANDOM_SUBSCRIBER_NAMES.length);
+        return Constants.RANDOM_SUBSCRIBER_NAMES[randomElement];
     }
 
-    public static String articleGeneration() {
-        int randomElement = generationRandomNumber(0, Constants.ARTICLES.length);
-
-        return Constants.ARTICLES[randomElement];
+    public static String messageGeneration() {
+        number++;
+        return Constants.SOME_MESSAGE + number;
     }
 
     public static int generationRandomNumber(int startNumber, int finishNumber) {
@@ -26,14 +21,14 @@ public class RandomGenerator {
     }
 
     public static SomeEvent eventGeneration() {
-        int randomElement = generationRandomNumber(0, Constants.RandomEvent.length);
+        int randomElement = generationRandomNumber(0, Constants.RANDOM_EVENT.length);
 
-        return Constants.RandomEvent[randomElement];
+        return Constants.RANDOM_EVENT[randomElement];
     }
 
     public static String subscriberSurnameGeneration() {
-        int randomElement = generationRandomNumber(0, Constants.SUBSCRIBER_SURNAMES.length);
+        int randomElement = generationRandomNumber(0, Constants.RANDOM_SUBSCRIBER_SURNAMES.length);
 
-        return Constants.SUBSCRIBER_SURNAMES[randomElement];
+        return Constants.RANDOM_SUBSCRIBER_SURNAMES[randomElement];
     }
 }

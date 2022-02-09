@@ -1,11 +1,11 @@
-package example.realization.synchronize;
+package epam.lab.realization.synchronize;
 
-import example.EventChannel;
+import epam.lab.EventChannel;
 
 public class Subscriber implements Runnable {
     private String name;
     private String surname;
-    private EventChannel eventChannel;
+    private final EventChannel eventChannel;
 
     public Subscriber(String name, String surname, EventChannel eventChannel) {
         this.name = name;

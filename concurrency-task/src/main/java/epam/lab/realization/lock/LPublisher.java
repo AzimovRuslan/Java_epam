@@ -1,8 +1,8 @@
-package example.realization.lock;
+package epam.lab.realization.lock;
 
-import example.EventChannel;
-import example.events.SomeEvent;
-import example.realization.synchronize.Publisher;
+import epam.lab.realization.synchronize.Publisher;
+import epam.lab.EventChannel;
+import epam.lab.events.SomeEvent;
 
 import java.util.concurrent.locks.ReentrantLock;
 

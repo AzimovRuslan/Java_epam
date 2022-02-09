@@ -1,15 +1,15 @@
 package utils;
 
-import example.events.ArtMuseum;
-import example.events.RockFestival;
-import example.events.SomeEvent;
+import epam.lab.events.ArtMuseum;
+import epam.lab.events.RockFestival;
+import epam.lab.events.SomeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventsGenerator {
     private List<SomeEvent> events;
-    private SubscribersGenerator subscribersGenerator;
+    private final SubscribersGenerator subscribersGenerator;
 
     public List<SomeEvent> getEvents() {
         return events;

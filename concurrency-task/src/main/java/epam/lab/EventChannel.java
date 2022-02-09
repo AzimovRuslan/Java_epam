@@ -1,7 +1,7 @@
-package example;
+package epam.lab;
 
-import example.events.SomeEvent;
-import example.realization.synchronize.Subscriber;
+import epam.lab.events.SomeEvent;
+import epam.lab.realization.synchronize.Subscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +48,7 @@ public class EventChannel {
             queue.put(map);
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -64,6 +65,7 @@ public class EventChannel {
             }
         } catch (InterruptedException e) {
             LOGGER.error(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 

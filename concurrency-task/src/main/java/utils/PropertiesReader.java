@@ -2,8 +2,6 @@ package utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,21 +18,17 @@ public class PropertiesReader {
 
     public PropertiesReader() {
         counts = new ArrayList<>();
-        try {
-            readValues();
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        }
+        readValues();
         fillCounts();
     }
 
-    public void readValues() throws IOException {
+    public void readValues() {
         Properties properties = new Properties();
 
         try (FileReader fileReader = new FileReader(PATH)) {
             properties.load(fileReader);
             values = properties.values();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
     }

@@ -1,7 +1,6 @@
-package example.events;
+package epam.lab.events;
 
 import annotations.Event;
-import example.events.SomeEvent;
 
 @Event(id = "2")
 public class RockFestival extends SomeEvent {

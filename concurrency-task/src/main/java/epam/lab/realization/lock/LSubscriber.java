@@ -1,17 +1,12 @@
-package example.realization.lock;
+package epam.lab.realization.lock;
 
-import example.EventChannel;
-import example.realization.synchronize.Subscriber;
+import epam.lab.EventChannel;
+import epam.lab.realization.synchronize.Subscriber;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LSubscriber extends Subscriber {
     private ReentrantLock locker;
-
-    public LSubscriber(String name, String surname, EventChannel eventChannel, ReentrantLock locker) {
-        super(name, surname, eventChannel);
-        this.locker = locker;
-    }
 
     public LSubscriber(EventChannel eventChannel, ReentrantLock locker) {
         super(eventChannel);
