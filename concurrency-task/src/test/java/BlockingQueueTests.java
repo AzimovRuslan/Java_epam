@@ -30,16 +30,15 @@ public class BlockingQueueTests {
 
     @Test
     public void lockTest2() {
-        subCount = 1;
-        pubCount = 1;
+        int count = 1;
 
-        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(eventChannel, subCount);
+        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(eventChannel, count);
         EventsGenerator eventsGenerator = new EventsGenerator(subscribersGenerator);
 
         List<SomeEvent> events = eventsGenerator.getEvents();
         eventChannel.registerEvents(events);
 
-        startThreadsWithBQ(pubCount);
+        startThreadsWithBQ(count);
     }
 
     @Test

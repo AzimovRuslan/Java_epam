@@ -1,6 +1,5 @@
 package utils;
 
-import constatnts.Constants;
 import epam.lab.events.SomeEvent;
 
 public class RandomGenerator {

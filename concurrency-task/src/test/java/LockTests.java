@@ -59,16 +59,15 @@ public class LockTests {
 
     @Test
     public void lockTest4() {
-        subCount = 6;
-        pubCount = 6;
+        int count = 6;
 
-        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(eventChannel, subCount);
+        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(eventChannel, count);
         EventsGenerator eventsGenerator = new EventsGenerator(subscribersGenerator);
 
         List<SomeEvent> events = eventsGenerator.getEvents();
         eventChannel.registerEvents(events);
 
-        startThreadsWithLocks(pubCount);
+        startThreadsWithLocks(count);
     }
 
     private static void startThreadsWithLocks(int pubCount) {

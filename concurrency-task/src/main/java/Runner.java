@@ -1,4 +1,4 @@
-import constatnts.Constants;
+import utils.Constants;
 import epam.lab.EventChannel;
 import epam.lab.events.SomeEvent;
 import epam.lab.realization.lock.LPublisher;

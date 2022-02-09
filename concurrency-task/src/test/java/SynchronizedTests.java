@@ -19,16 +19,15 @@ public class SynchronizedTests {
 
     @Test
     public void synchronizedTest1() {
-        subCount = 2;
-        pubCount = 2;
+        int count = 2;
 
-        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(eventChannel, subCount);
+        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(eventChannel, count);
         EventsGenerator eventsGenerator = new EventsGenerator(subscribersGenerator);
 
         List<SomeEvent> events = eventsGenerator.getEvents();
         eventChannel.registerEvents(events);
 
-        startSynchronizationThreads(pubCount);
+        startSynchronizationThreads(count);
     }
 
     @Test
