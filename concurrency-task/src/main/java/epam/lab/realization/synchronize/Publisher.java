@@ -55,7 +55,7 @@ public class Publisher implements Runnable {
                 list.add(news);
 
                 eventChannel.registerNewsAboutEvent(someEvent, list);
-                LOGGER.info(String.format("added news (%s) for event " + someEvent.getClass(), news));
+                LOGGER.info(String.format("added news (%s) for event (%s)", news, someEvent.getClass().toString()));
             }
         }
     }

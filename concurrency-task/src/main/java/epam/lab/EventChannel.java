@@ -59,7 +59,8 @@ public class EventChannel {
 
                 for (Map.Entry<SomeEvent, String> entry : map.entrySet()) {
                     for (Subscriber sub : entry.getKey().getSubscribers()) {
-                        LOGGER.info(sub + " got a message about " + entry.getKey().getClass() + "->" + entry.getValue());
+                        LOGGER.info(String.format("%s got a message about %s->%s", sub, entry.getKey().getClass().toString(), entry.getValue()));
+
                     }
                 }
             }
@@ -79,7 +80,7 @@ public class EventChannel {
         synchronized (this) {
             for (Map.Entry<SomeEvent, List<String>> entry : news.entrySet()) {
                 for (Subscriber sub : entry.getKey().getSubscribers()) {
-                    LOGGER.info(sub + " got a message about " + entry.getKey().getClass() + "->" + entry.getValue());
+                    LOGGER.info(String.format("%s got a message about %s->%s", sub, entry.getKey().getClass().toString(), entry.getValue()));
                 }
             }
         }

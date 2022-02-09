@@ -25,7 +25,8 @@ public class BQPublisher extends Publisher {
                 String news = RandomGenerator.messageGeneration();
 
                 getEventChannel().registerNewsAboutEventInBQ(someEvent, news);
-                LOGGER.info(String.format("added news (%s) for event" + someEvent.getClass(), news));
+
+                LOGGER.info(String.format("added news (%s) for event (%s)", news, someEvent.getClass().toString()));
             }
         }
     }

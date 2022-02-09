@@ -11,4 +11,5 @@ public class Constants {
     public static final String SOME_MESSAGE = "some message №";
     public static final String REGISTERED_EVENTS = "REGISTERED EVENTS";
     public static final String NEWS_ABOUT_EVENTS = "NEWS ABOUT EVENTS PUBLISHED BY PUBLISHERS";
+    public static final String UTILITY_CLASS = "Utility class";
 }

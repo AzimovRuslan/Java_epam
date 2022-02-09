@@ -39,7 +39,7 @@ public class Runner {
         Thread thread = new Thread(() -> {
             LOGGER.info(Constants.REGISTERED_EVENTS);
             for (SomeEvent event : EVENT_CHANNEL.getEvents()) {
-                LOGGER.info("registered event " + event + " | participants -> " + event.getSubscribers());
+                LOGGER.info(String.format("registered event %s | participants -> %s", event, event.getSubscribers().toString()));
             }
         });
 
@@ -56,7 +56,7 @@ public class Runner {
         Thread thread = new Thread(() -> {
             LOGGER.info(Constants.NEWS_ABOUT_EVENTS);
             for (Map.Entry<SomeEvent, List<String>> entry : EVENT_CHANNEL.getNews().entrySet()) {
-                LOGGER.info(entry.getKey() + "->" + entry.getValue());
+                LOGGER.info(String.format("%s->%s", entry.getKey(), entry.getValue().toString()));
             }
         });
 
@@ -74,7 +74,7 @@ public class Runner {
             LOGGER.info(Constants.NEWS_ABOUT_EVENTS);
             for (Map<SomeEvent, String> map : EVENT_CHANNEL.getQueue()) {
                 for (Map.Entry<SomeEvent, String> entry : map.entrySet()) {
-                    LOGGER.info(entry.getKey() + "->" + entry.getValue());
+                    LOGGER.info(String.format("%s->%s", entry.getKey(), entry.getValue()));
                 }
             }
         });

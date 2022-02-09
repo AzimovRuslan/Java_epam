@@ -6,6 +6,10 @@ import epam.lab.events.SomeEvent;
 public class RandomGenerator {
     private static int number = 0;
 
+    private RandomGenerator() {
+        throw new IllegalStateException(Constants.UTILITY_CLASS);
+    }
+
     public static String subscriberNameGeneration() {
         int randomElement = generationRandomNumber(0, Constants.RANDOM_SUBSCRIBER_NAMES.length);
         return Constants.RANDOM_SUBSCRIBER_NAMES[randomElement];
