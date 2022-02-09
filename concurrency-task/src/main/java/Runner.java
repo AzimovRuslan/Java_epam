@@ -37,10 +37,10 @@ public class Runner {
             LOGGER.error(e.getMessage());
             Thread.currentThread().interrupt();
         }
-        
+
         startSynchronizationThreads();
-        startThreadWithLocks();
-        startThreadWithBlockingQueue();
+//        startThreadWithLocks();
+//        startThreadWithBlockingQueue();
     }
 
     private static void outputRegisteredEvents() {
