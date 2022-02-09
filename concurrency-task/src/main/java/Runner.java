@@ -21,18 +21,26 @@ public class Runner {
     private static final Logger LOGGER = LoggerFactory.getLogger(Runner.class);
     private static final PropertiesReader PROPERTIES_READER = new PropertiesReader();
     private static final EventChannel EVENT_CHANNEL = new EventChannel();
+    private static List<SomeEvent> events;
 
     public static void main(String[] args) {
-        List<SomeEvent> events;
-
-        SubscribersGenerator subscribersGenerator = new SubscribersGenerator(EVENT_CHANNEL, PROPERTIES_READER.getCounts().get(1));
-        EventsGenerator eventsGenerator = new EventsGenerator(subscribersGenerator);
-        events = eventsGenerator.getEvents();
-        EVENT_CHANNEL.registerEvents(events);
-
+        Thread thread = new Thread(() -> {
+            SubscribersGenerator subscribersGenerator = new SubscribersGenerator(EVENT_CHANNEL, PROPERTIES_READER.getCounts().get(1));
+            EventsGenerator eventsGenerator = new EventsGenerator(subscribersGenerator);
+            events = eventsGenerator.getEvents();
+            EVENT_CHANNEL.registerEvents(events);
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            LOGGER.error(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+        
         startSynchronizationThreads();
-//        startThreadWithLocks();
-//        startThreadWithBlockingQueue();
+        startThreadWithLocks();
+        startThreadWithBlockingQueue();
     }
 
     private static void outputRegisteredEvents() {
