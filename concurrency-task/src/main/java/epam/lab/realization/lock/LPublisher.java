@@ -7,7 +7,7 @@ import epam.lab.events.SomeEvent;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LPublisher extends Publisher {
-    private static ReentrantLock locker;
+    private final ReentrantLock locker;
 
     public LPublisher(SomeEvent event, EventChannel eventChannel, ReentrantLock locker) {
         super(event, eventChannel);

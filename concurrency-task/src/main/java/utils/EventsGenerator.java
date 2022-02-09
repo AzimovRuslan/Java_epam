@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventsGenerator {
-    private List<SomeEvent> events;
+    private final List<SomeEvent> events;
     private final SubscribersGenerator subscribersGenerator;
 
     public List<SomeEvent> getEvents() {

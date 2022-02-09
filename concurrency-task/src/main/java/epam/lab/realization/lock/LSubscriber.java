@@ -6,7 +6,7 @@ import epam.lab.realization.synchronize.Subscriber;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LSubscriber extends Subscriber {
-    private ReentrantLock locker;
+    private final ReentrantLock locker;
 
     public LSubscriber(EventChannel eventChannel, ReentrantLock locker) {
         super(eventChannel);

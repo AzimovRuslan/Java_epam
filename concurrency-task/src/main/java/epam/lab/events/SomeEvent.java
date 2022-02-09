@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SomeEvent {
-    private List<Subscriber> subscribers;
+    private final List<Subscriber> subscribers;
 
     public SomeEvent() {
         subscribers = new ArrayList<>();

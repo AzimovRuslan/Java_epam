@@ -9,15 +9,13 @@ import java.util.List;
 
 public class SubscribersGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscribersGenerator.class);
-//    private final PropertiesReader propertiesReader;
-    private List<Subscriber> rockSubscribers;
-    private List<Subscriber> museumSubscribers;
+    private final List<Subscriber> rockSubscribers;
+    private final List<Subscriber> museumSubscribers;
     private final EventChannel eventChannel;
-    private int subCount;
+    private final int subCount;
 
 
     public SubscribersGenerator(EventChannel eventChannel, int subCount) {
-//        propertiesReader = new PropertiesReader();
         rockSubscribers = new ArrayList<>();
         museumSubscribers = new ArrayList<>();
         this.eventChannel = eventChannel;

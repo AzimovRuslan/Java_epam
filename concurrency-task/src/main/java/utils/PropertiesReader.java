@@ -14,7 +14,7 @@ public class PropertiesReader {
     private static final String PATH = "src\\main\\resources\\configuration.properties";
 
     private Collection<Object> values;
-    private List<Integer> counts;
+    private final List<Integer> counts;
 
     public PropertiesReader() {
         counts = new ArrayList<>();

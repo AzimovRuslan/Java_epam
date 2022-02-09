@@ -16,8 +16,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class EventChannel {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventChannel.class);
     private List<SomeEvent> events;
-    private ConcurrentMap<SomeEvent, List<String>> news;
-    private BlockingQueue<ConcurrentMap<SomeEvent, String>> queue;
+    private final ConcurrentMap<SomeEvent, List<String>> news;
+    private final BlockingQueue<ConcurrentMap<SomeEvent, String>> queue;
 
     public EventChannel() {
         events = new ArrayList<>();
