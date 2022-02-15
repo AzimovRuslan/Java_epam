@@ -3,13 +3,10 @@ package service;
 import dao.impl.UnitDaoImpl;
 import models.Unit;
 
-import java.util.List;
-
 public class UnitService {
     private UnitDaoImpl unitDao = new UnitDaoImpl();
 
     public UnitService() {
-
     }
 
     public Unit getUnit(int id) {
@@ -26,9 +23,5 @@ public class UnitService {
 
     public void deleteUnit(Unit unit) {
         unitDao.delete(unit);
-    }
-
-    public List<Unit> getAllUnits() {
-        return unitDao.getAll();
     }
 }

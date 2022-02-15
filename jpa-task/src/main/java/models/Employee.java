@@ -31,13 +31,12 @@ public class Employee {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employees_projects",
-            joinColumns = { @JoinColumn(name = "employee_id") },
-            inverseJoinColumns = { @JoinColumn(name = "project_id") }
+            joinColumns = {@JoinColumn(name = "employee_id")},
+            inverseJoinColumns = {@JoinColumn(name = "project_id")}
     )
     private Set<Project> projects = new HashSet<>();
 
     public Employee() {
-
     }
 
     public Employee(String employeeStatus, String address, boolean external) {

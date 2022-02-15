@@ -18,7 +18,6 @@ public class Project {
     private Set<Employee> employees = employees = new HashSet<>();
 
     public Project() {
-
     }
 
     public Project(String name) {

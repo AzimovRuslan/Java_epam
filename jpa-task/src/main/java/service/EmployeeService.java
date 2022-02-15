@@ -14,7 +14,6 @@ public class EmployeeService {
     private EmployeeDaoImpl employeeDao = new EmployeeDaoImpl();
 
     public EmployeeService() {
-
     }
 
     public Employee getEmployee(int id) {
@@ -31,10 +30,6 @@ public class EmployeeService {
 
     public void deleteEmployee(Employee employee) {
         employeeDao.delete(employee);
-    }
-
-    public List<Employee> getAllEmployees() {
-        return employeeDao.getAll();
     }
 
     public void addUnitById(Employee employee, int id) {

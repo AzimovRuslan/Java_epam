@@ -5,14 +5,12 @@ import models.Unit;
 import org.hibernate.Session;
 import utils.HibernateSessionFactoryUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UnitDaoImpl implements Dao<Unit> {
     private Session session = null;
+
     @Override
     public Unit getByID(int id) {
-        Unit unit = new Unit();
+        Unit unit;
         try {
             session = HibernateSessionFactoryUtil.getSession();
             unit = session.get(Unit.class, id);
@@ -56,17 +54,5 @@ public class UnitDaoImpl implements Dao<Unit> {
         } finally {
             session.close();
         }
-    }
-
-    @Override
-    public List<Unit> getAll() {
-        List<Unit> list = new ArrayList<>();
-        try {
-            session = HibernateSessionFactoryUtil.getSession();
-            list = (List<Unit>) session.createQuery("From Unit ").list();
-        } finally {
-            session.close();
-        }
-        return list;
     }
 }

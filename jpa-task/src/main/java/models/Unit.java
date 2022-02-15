@@ -18,7 +18,6 @@ public class Unit {
     private Set<Employee> employees = new HashSet<>();
 
     public Unit() {
-
     }
 
     public Unit(String title) {

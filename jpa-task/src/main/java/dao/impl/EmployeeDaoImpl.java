@@ -5,15 +5,12 @@ import models.Employee;
 import org.hibernate.Session;
 import utils.HibernateSessionFactoryUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EmployeeDaoImpl implements Dao<Employee> {
     private Session session = null;
 
     @Override
     public Employee getByID(int id) {
-        Employee employee = new Employee();
+        Employee employee;
         try {
             session = HibernateSessionFactoryUtil.getSession();
             employee = session.get(Employee.class, id);
@@ -57,17 +54,5 @@ public class EmployeeDaoImpl implements Dao<Employee> {
         } finally {
             session.close();
         }
-    }
-
-    @Override
-    public List<Employee> getAll() {
-        List<Employee> list = new ArrayList<>();
-        try {
-            session = HibernateSessionFactoryUtil.getSession();
-            list = (List<Employee>) session.createQuery("From Employee ").list();
-        } finally {
-            session.close();
-        }
-        return list;
     }
 }

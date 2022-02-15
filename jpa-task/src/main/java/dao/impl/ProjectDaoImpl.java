@@ -5,15 +5,12 @@ import models.Project;
 import org.hibernate.Session;
 import utils.HibernateSessionFactoryUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ProjectDaoImpl implements Dao<Project> {
     private Session session = null;
 
     @Override
     public Project getByID(int id) {
-        Project project = new Project();
+        Project project;
         try {
             session = HibernateSessionFactoryUtil.getSession();
             project = session.get(Project.class, id);
@@ -57,17 +54,5 @@ public class ProjectDaoImpl implements Dao<Project> {
         } finally {
             session.close();
         }
-    }
-
-    @Override
-    public List<Project> getAll() {
-        List<Project> list = new ArrayList<>();
-        try {
-            session = HibernateSessionFactoryUtil.getSession();
-            list = (List<Project>) session.createQuery("From Project ").list();
-        } finally {
-            session.close();
-        }
-        return list;
     }
 }

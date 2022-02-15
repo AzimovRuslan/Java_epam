@@ -22,7 +22,6 @@ public class EmployeePersonalInfo {
     private Employee employee;
 
     public EmployeePersonalInfo() {
-
     }
 
     public EmployeePersonalInfo(String name, String surname, int age) {

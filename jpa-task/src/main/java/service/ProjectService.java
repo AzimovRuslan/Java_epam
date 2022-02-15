@@ -3,13 +3,10 @@ package service;
 import dao.impl.ProjectDaoImpl;
 import models.Project;
 
-import java.util.List;
-
 public class ProjectService {
     private ProjectDaoImpl projectDao = new ProjectDaoImpl();
 
     public ProjectService() {
-
     }
 
     public Project getProject(int id) {
@@ -26,9 +23,5 @@ public class ProjectService {
 
     public void deleteProject(Project project) {
         projectDao.delete(project);
-    }
-
-    public List<Project> getAllProjects() {
-        return projectDao.getAll();
     }
 }
