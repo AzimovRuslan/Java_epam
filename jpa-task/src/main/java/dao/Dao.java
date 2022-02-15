@@ -1,6 +1,5 @@
 package dao;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 public interface Dao<T>{

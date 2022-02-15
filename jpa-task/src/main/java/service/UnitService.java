@@ -1,7 +1,6 @@
 package service;
 
 import dao.impl.UnitDaoImpl;
-import models.Employee;
 import models.Unit;
 
 import java.util.List;

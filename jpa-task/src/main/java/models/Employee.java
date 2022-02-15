@@ -28,7 +28,7 @@ public class Employee {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employees_projects",
             joinColumns = { @JoinColumn(name = "employee_id") },

@@ -4,7 +4,10 @@ import dao.impl.EmployeeDaoImpl;
 import models.Employee;
 import models.Project;
 import models.Unit;
+import org.hibernate.Session;
+import utils.HibernateSessionFactoryUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeService {
@@ -38,5 +41,25 @@ public class EmployeeService {
         UnitService unitService = new UnitService();
         Unit unit = unitService.getUnit(id);
         employee.setUnit(unit);
+    }
+
+    public void assignProjectById(Employee employee, int id) {
+        ProjectService projectService = new ProjectService();
+        Project project = projectService.getProject(id);
+        employee.addProject(project);
+    }
+
+    public List<Employee> getEmployeeWhichAreNotExternal() {
+        Session session = null;
+        List<Employee> list = new ArrayList<>();
+        try {
+            session = HibernateSessionFactoryUtil.getSession();
+            list = (List<Employee>) session.createQuery("from Employee where external =: external").setParameter("external", false).list();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return list;
     }
 }
