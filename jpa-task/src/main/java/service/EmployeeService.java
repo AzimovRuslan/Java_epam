@@ -6,7 +6,6 @@ import models.Project;
 import models.Unit;
 import org.hibernate.Session;
 import utils.HibernateSessionFactoryUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
