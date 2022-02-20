@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+</head>
+<body>
+<div align="center">
+    <div>
+        <form method="post" >
+            <input type="text" required name="name" placeholder="enter name"/>
+            <button type="submit">ADD</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        </form>
+    </div>
+    <div>
+        <table border="3" bgcolor="#fff8dc">
+            <caption>CATEGORIES</caption>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+            </tr>
+            <tr th:each="categor : ${categories}">
+                <td><span th:text="${categor.id}">Id</span></td>
+                <td><span th:text="${categor.name}">Id</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

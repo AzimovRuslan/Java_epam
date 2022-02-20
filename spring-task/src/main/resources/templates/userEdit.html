@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>User edit</title>
+</head>
+<body>
+    <form method="post" action="/user">
+        <input type="text" th:text="${user.username}" />
+        <div th:each="role : ${roles}">
+            <label th:text="${role}"></label>
+        </div>
+        <input type="hidden" value="${user}"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

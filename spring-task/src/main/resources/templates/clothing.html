@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clothing</title>
+</head>
+<body>
+<div align="center">
+    <div>
+        <form method="post">
+            <input type="number" required name="category" placeholder="enter id category"/>
+            <input type="text" name="name" placeholder="enter name"/>
+            <input type="text" name="description" placeholder="enter description"/>
+            <input type="number" required name="price" placeholder="enter price"/>
+            <button type="submit">ADD</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        </form>
+    </div>
+    <div>
+        <table border="3" bgcolor="#fff8dc">
+            <caption>CLOTHING</caption>
+            <tr>
+                <th>ID</th>
+                <th>CATEGORY</th>
+                <th>NAME</th>
+                <th>DESCRIPTION</th>
+                <th>PRICE</th>
+            </tr>
+            <tr th:each="prod : ${products}">
+                <td><span th:text="${prod.id}">Id</span></td>
+                <td><span th:text="${prod.category.name}">Category</span></td>
+                <td><span th:text="${prod.name}">Name</span></td>
+                <td><span th:text="${prod.description}">Description</span></td>
+                <td><span th:text="${prod.price}">Price</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<a th:href="@{/category}" id="category"><h3>CATEGORY</h3></a>
+</body>
+</html>
