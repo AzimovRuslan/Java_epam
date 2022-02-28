@@ -15,17 +15,8 @@ public class Product {
 
     private String name;
 
-    private String description;
-
-    private int price;
-//    @OneToOne
-//    @JoinColumn(name = "price")
-//    private Price price;
-
-    public Product(String name, String description, int price) {
+    public Product(String name) {
         this.name = name;
-        this.description = description;
-        this.price = price;
     }
 
     public Product() {
@@ -53,21 +44,5 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

@@ -56,7 +56,7 @@ public class CategoryController {
 
             for (Category c : categoriesFromDb) {
                 if (c.equals(superCategory)){
-                    category.getSuperCategories().remove(category.getSuperCategories().iterator().next());
+                    category.getSuperCategories().remove(getSuperCategoryOfCategory(category));
                     category.getSuperCategories().add(c);
                 }
             }

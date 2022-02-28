@@ -2,6 +2,8 @@ package com.example.springtask.controller;
 
 import com.example.springtask.domain.store.Category;
 import com.example.springtask.repos.CategoryRepository;
+import com.example.springtask.repos.PriceRepository;
+import com.example.springtask.repos.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,8 +35,16 @@ class CategoryControllerIntegrationTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private PriceRepository priceRepository;
+
     @BeforeEach
     public void resetDb() {
+        priceRepository.deleteAll();
+        productRepository.deleteAll();
         categoryRepository.deleteAll();
     }
 
