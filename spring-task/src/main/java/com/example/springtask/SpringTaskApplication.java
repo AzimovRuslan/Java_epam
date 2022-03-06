@@ -28,14 +28,14 @@ public class SpringTaskApplication {
 //    @Autowired
 //    private UserRepository userRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private PriceRepository priceRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+//    @Autowired
+//    private CategoryRepository categoryRepository;
+//
+//    @Autowired
+//    private PriceRepository priceRepository;
+//
+//    @Autowired
+//    private ProductRepository productRepository;
 
 //    @Bean
 //    public CommandLineRunner CommandLineRunnerBean() {
@@ -49,43 +49,43 @@ public class SpringTaskApplication {
 //        };
 //    }
 
-    @Bean
-    public CommandLineRunner CommandLineRunnerBean1() {
-        return (args) -> {
-            Category superCategory = new Category("Outwear");
-            categoryRepository.save(superCategory);
-            Category category = new Category("Jackets");
-            category.addSuperCategory(superCategory);
-            categoryRepository.save(category);
-
-            Product product = new Product();
-            product.setName("Jacket");
-            product.setCategory(category);
-            productRepository.save(product);
-
-            Price price = new Price(100, "BYN");
-            price.setProduct(product);
-            priceRepository.save(price);
-        };
-    }
-
-    @Bean
-    public CommandLineRunner CommandLineRunnerBean2() {
-        return (args) -> {
-            Category superCategory = new Category("Shoes");
-            categoryRepository.save(superCategory);
-            Category category = new Category("Sneakers");
-            category.addSuperCategory(superCategory);
-            categoryRepository.save(category);
-
-            Product product = new Product();
-            product.setName("Sneakers PUMA");
-            product.setCategory(category);
-            productRepository.save(product);
-
-            Price price = new Price(300, "USD");
-            price.setProduct(product);
-            priceRepository.save(price);
-        };
-    }
+//    @Bean
+//    public CommandLineRunner CommandLineRunnerBean1() {
+//        return (args) -> {
+//            Category superCategory = new Category("Outwear");
+//            categoryRepository.save(superCategory);
+//            Category category = new Category("Jackets");
+//            category.addSuperCategory(superCategory);
+//            categoryRepository.save(category);
+//
+//            Product product = new Product();
+//            product.setName("Jacket");
+//            product.setCategory(category);
+//            productRepository.save(product);
+//
+//            Price price = new Price(100, "BYN");
+//            price.setProduct(product);
+//            priceRepository.save(price);
+//        };
+//    }
+//
+//    @Bean
+//    public CommandLineRunner CommandLineRunnerBean2() {
+//        return (args) -> {
+//            Category superCategory = new Category("Shoes");
+//            categoryRepository.save(superCategory);
+//            Category category = new Category("Sneakers");
+//            category.addSuperCategory(superCategory);
+//            categoryRepository.save(category);
+//
+//            Product product = new Product();
+//            product.setName("Sneakers PUMA");
+//            product.setCategory(category);
+//            productRepository.save(product);
+//
+//            Price price = new Price(300, "USD");
+//            price.setProduct(product);
+//            priceRepository.save(price);
+//        };
+//    }
 }

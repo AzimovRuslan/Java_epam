@@ -31,13 +31,9 @@ public class PriceTests {
 
     @Test
     void test() {
-        String s = "category_id-1";
-        Pattern pattern = Pattern.compile("category_id-");
-        Matcher matcher = pattern.matcher(s);
-        if (matcher.find()) {
-            System.out.println("found");
-        } else {
-            System.out.println("not found");
-        }
+        int startNumber = 0;
+        int finishNumber = 2;
+
+        System.out.println((startNumber + (int) (Math.random() * finishNumber)));
     }
 }

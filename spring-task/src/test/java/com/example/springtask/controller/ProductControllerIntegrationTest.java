@@ -1,7 +1,6 @@
 package com.example.springtask.controller;
 
 import com.example.springtask.domain.store.Category;
-import com.example.springtask.domain.store.Price;
 import com.example.springtask.domain.store.Product;
 import com.example.springtask.repos.CategoryRepository;
 import com.example.springtask.repos.PriceRepository;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -20,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -74,11 +71,56 @@ public class ProductControllerIntegrationTest {
 
     @Test
     void whenGetProductById_thenStatus200() {
-        Category category = new Category("Jackets");
-        Long id = createTestProduct(category, "Jacket").getId();
+        Long id = getTestProduct().getId();
         Product[] products = restTemplate.getForObject("/product/{id}", Product[].class, id);
 
         assertThat(products[0].getName(), is("Jacket"));
+    }
+
+    @Test
+    void whenGetProductByName_thenStatus200() {
+        String value = getTestProduct().getName();
+        Product[] products = restTemplate.getForObject("/product/{value}", Product[].class, value);
+
+        assertThat(products[0].getName(), is("Jacket"));
+    }
+
+    @Test
+    void whenGetProductByCategoryId_thenStatus200() {
+        String value = "category_id-" + getTestProduct().getCategory().getId();
+        Product[] products = restTemplate.getForObject("/product/{value}", Product[].class, value);
+
+        assertThat(products[0].getName(), is("Jacket"));
+    }
+
+    @Test
+    void whenUpdateProduct_thenStatus200() {
+        Category category = new Category("Outwear");
+        Long id = getTestProduct().getId();
+
+        Product product = new Product("Vest");
+        product.setCategory(category);
+
+        HttpEntity<Product> entity = new HttpEntity<>(product);
+
+        ResponseEntity<Product> responseEntity = restTemplate.exchange("/product/{id}", HttpMethod.PUT, entity,
+                Product.class, id);
+
+        assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).getId(), notNullValue());
+        assertThat(responseEntity.getBody().getName(), is("Vest"));
+    }
+
+    @Test
+    void givenProduct_whenDeleteCategory_thenStatus200() {
+        Long id = getTestProduct().getId();
+
+        ResponseEntity<Product> responseEntity = restTemplate.exchange("/product/{id}", HttpMethod.DELETE, null,
+                Product.class, id);
+
+        assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).getId(), notNullValue());
+        assertThat(responseEntity.getBody().getName(), is("Jacket"));
     }
 
     private Product createTestProduct(Category category, String name) {
@@ -86,5 +128,10 @@ public class ProductControllerIntegrationTest {
         Product product = new Product(name);
         product.setCategory(category);
         return productRepository.save(product);
+    }
+
+    private Product getTestProduct() {
+        Category category = new Category("Jackets");
+        return createTestProduct(category, "Jacket");
     }
 }

@@ -1,10 +1,14 @@
 package com.example.springtask.controller;
 
 import com.example.springtask.domain.store.Category;
+import com.example.springtask.domain.store.Price;
 import com.example.springtask.repos.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +27,14 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> categories() {
-        List<Category> categories = categoryRepository.findAll();
+    public ResponseEntity<Page<Category>> categories(
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<String> sortBy
+    ) {
+        Page<Category> categories = categoryRepository.findAll(
+                PageRequest.of(page.orElse(0),
+                        10,
+                        Sort.Direction.ASC, sortBy.orElse("id")));
         return ResponseEntity.ok().body(categories);
     }
 

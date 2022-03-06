@@ -5,15 +5,20 @@ import com.example.springtask.domain.store.Product;
 import com.example.springtask.exceptions.NotFoundException;
 import com.example.springtask.repos.PriceRepository;
 import com.example.springtask.repos.ProductRepository;
+import org.h2.server.web.PageParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,8 +36,13 @@ public class PriceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Price>> prices() {
-        List<Price> prices = priceRepository.findAll();
+    public ResponseEntity<Page<Price>> getPrices(
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<String> sortBy) {
+        Page<Price> prices = priceRepository.findAll(
+                PageRequest.of(page.orElse(0),
+                        10,
+                        Sort.Direction.ASC, sortBy.orElse("id")));
         return ResponseEntity.ok().body(prices);
     }
 

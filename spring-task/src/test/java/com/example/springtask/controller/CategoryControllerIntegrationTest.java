@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -108,20 +106,6 @@ class CategoryControllerIntegrationTest {
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
         assertThat(Objects.requireNonNull(responseEntity.getBody()).getId(), notNullValue());
         assertThat(responseEntity.getBody().getName(), is("Jackets"));
-    }
-
-    @Test
-    void whenGetCategories_thenStatus200() {
-        createTestCategory("Outwear");
-        createTestCategory("Underwear");
-        ResponseEntity<List<Category>> responseEntity = restTemplate.exchange("/category", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Category>>() {
-                });
-
-        List<Category> categories = responseEntity.getBody();
-
-        assertThat(categories.get(0).getName(), is("Outwear"));
-        assertThat(categories.get(1).getName(), is("Underwear"));
     }
 
     private Category createTestCategory(String name) {
