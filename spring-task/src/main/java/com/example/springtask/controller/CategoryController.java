@@ -1,7 +1,6 @@
 package com.example.springtask.controller;
 
 import com.example.springtask.domain.store.Category;
-import com.example.springtask.domain.store.Price;
 import com.example.springtask.repos.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -27,6 +27,7 @@ public class CategoryController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Page<Category>> categories(
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<String> sortBy
@@ -35,10 +36,13 @@ public class CategoryController {
                 PageRequest.of(page.orElse(0),
                         10,
                         Sort.Direction.ASC, sortBy.orElse("id")));
+
+        LOGGER.info("RECEIVED ALL CATEGORIES");
         return ResponseEntity.ok().body(categories);
     }
 
     @GetMapping("/{value}")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<Category>> getCategoriesByValue(@PathVariable("value") String value) {
         List<Category> categories = new ArrayList<>();
         if (value != null) {
@@ -48,17 +52,22 @@ public class CategoryController {
                 categoryForReturn.setId(category.getId());
                 categoryForReturn.setName(category.getName());
                 categories.add(categoryForReturn);
+
+                LOGGER.info(String.format("RECEIVED CATEGORY WITH ID = %s", value));
             } else {
                 categories = categoryRepository.findAll()
                         .stream()
                         .filter(category -> category.getName().equals(value))
                         .collect(Collectors.toList());
+
+                LOGGER.info(String.format("RECEIVED CATEGORY WITH NAME = %s", value));
             }
         }
         return ResponseEntity.ok().body(categories);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         if (!category.getSuperCategories().isEmpty()) {
             Category superCategory = getSuperCategoryOfCategory(category);
@@ -95,10 +104,12 @@ public class CategoryController {
             categoryForCreate = categoryRepository.save(category);
         }
 
+        LOGGER.info(String.format("ADDED NEW CATEGORY"));
         return ResponseEntity.status(201).body(categoryForCreate);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Category> updateCategory(
             @PathVariable("id") Category categoryFromDb,
             @RequestBody Category category) {
@@ -111,10 +122,13 @@ public class CategoryController {
         }
 
         BeanUtils.copyProperties(category, categoryFromDb, "id");
+
+        LOGGER.info(String.format("UPDATED CATEGORY WITH ID  = %d", categoryFromDb.getId()));
         return ResponseEntity.ok().body(categoryRepository.save(categoryFromDb));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Category> deleteCategory(@PathVariable("id") Long id) {
         Optional<Category> categoryFromDb = categoryRepository.findById(id);
         List<Category> categoriesFromDb = categoryRepository.findAll();
@@ -129,6 +143,8 @@ public class CategoryController {
         }
 
         categoryRepository.deleteById(id);
+
+        LOGGER.info(String.format("DELETED CATEGORY WITH ID  = %d", id));
         return ResponseEntity.ok().body(category);
     }
 

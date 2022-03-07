@@ -49,7 +49,9 @@ class CategoryControllerIntegrationTest {
     @Test
     void whenCreateCategory_thenStatus201() {
         Category superCategory = new Category("Outwear");
-        ResponseEntity<Category> responseSuperCategory = restTemplate.postForEntity("/category", superCategory, Category.class);
+        ResponseEntity<Category> responseSuperCategory = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/category", superCategory, Category.class);
 
         assertThat(responseSuperCategory.getStatusCode(), is(HttpStatus.CREATED));
         assertThat(Objects.requireNonNull(responseSuperCategory.getBody()).getName(), is("Outwear"));
@@ -59,7 +61,9 @@ class CategoryControllerIntegrationTest {
 
         Category category = new Category("Jacket");
         category.setSuperCategories(categories);
-        ResponseEntity<Category> responseCategory = restTemplate.postForEntity("/category", category, Category.class);
+        ResponseEntity<Category> responseCategory = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/category", category, Category.class);
 
         assertThat(responseCategory.getStatusCode(), is(HttpStatus.CREATED));
         assertThat(Objects.requireNonNull(responseCategory.getBody()).getId(), notNullValue());
@@ -68,9 +72,21 @@ class CategoryControllerIntegrationTest {
     }
 
     @Test
+    void whenUserCreatesCategory_thenStatus403() {
+        Category category = new Category("Jacket");
+        ResponseEntity<Category> responseCategory = restTemplate
+                .withBasicAuth("user", "user")
+                .postForEntity("/category", category, Category.class);
+
+        assertThat(responseCategory.getStatusCode(), is(HttpStatus.FORBIDDEN));
+    }
+
+    @Test
     void whenGetCategoryById_thenStatus200() {
         Long id = createTestCategory("Clothing").getId();
-        Category[] category = restTemplate.getForObject("/category/{id}", Category[].class, id);
+        Category[] category = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/category/{id}", Category[].class, id);
 
         assertThat(category[0].getName(), is("Clothing"));
     }
@@ -78,9 +94,25 @@ class CategoryControllerIntegrationTest {
     @Test
     void whenGetCategoryByValue_thenStatus200() {
         String value = createTestCategory("Outwear").getName();
-        Category[] category = restTemplate.getForObject("/category/{value}", Category[].class, value);
+        Category[] category = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/category/{value}", Category[].class, value);
 
         assertThat(category[0].getName(), is("Outwear"));
+    }
+
+    @Test
+    void whenUserUpdatesCategory_thenStatus403() {
+        Long id = createTestCategory("Jackets").getId();
+        Category category = new Category("Outwear");
+        HttpEntity<Category> entity = new HttpEntity<>(category);
+
+        ResponseEntity<Category> responseEntity = restTemplate
+                .withBasicAuth("user", "user")
+                .exchange("/category/{id}", HttpMethod.PUT, entity,
+                        Category.class, id);
+
+        assertThat(responseEntity.getStatusCode(), is(HttpStatus.FORBIDDEN));
     }
 
     @Test
@@ -89,7 +121,9 @@ class CategoryControllerIntegrationTest {
         Category category = new Category("Outwear");
         HttpEntity<Category> entity = new HttpEntity<>(category);
 
-        ResponseEntity<Category> responseEntity = restTemplate.exchange("/category/{id}", HttpMethod.PUT, entity,
+        ResponseEntity<Category> responseEntity = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/category/{id}", HttpMethod.PUT, entity,
                 Category.class, id);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
@@ -100,12 +134,23 @@ class CategoryControllerIntegrationTest {
     @Test
     void givenCategory_whenDeleteCategory_thenStatus200() {
         Long id = createTestCategory("Jackets").getId();
-        ResponseEntity<Category> responseEntity = restTemplate.exchange("/category/{id}", HttpMethod.DELETE, null,
-                Category.class, id);
+        ResponseEntity<Category> responseEntity = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/category/{id}", HttpMethod.DELETE, null, Category.class, id);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
         assertThat(Objects.requireNonNull(responseEntity.getBody()).getId(), notNullValue());
         assertThat(responseEntity.getBody().getName(), is("Jackets"));
+    }
+
+    @Test
+    void givenCategory_whenUserDeletesCategory_thenStatus403() {
+        Long id = createTestCategory("Jackets").getId();
+        ResponseEntity<Category> responseEntity = restTemplate
+                .withBasicAuth("user", "user")
+                .exchange("/category/{id}", HttpMethod.DELETE, null, Category.class, id);
+
+        assertThat(responseEntity.getStatusCode(), is(HttpStatus.FORBIDDEN));
     }
 
     private Category createTestCategory(String name) {

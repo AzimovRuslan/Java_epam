@@ -1,7 +1,6 @@
 package com.example.springtask.controller;
 
 import com.example.springtask.domain.store.Category;
-import com.example.springtask.domain.store.Price;
 import com.example.springtask.domain.store.Product;
 import com.example.springtask.exceptions.NotFoundException;
 import com.example.springtask.repos.CategoryRepository;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -38,6 +38,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Page<Product>> categories(
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<String> sortBy
@@ -46,10 +47,13 @@ public class ProductController {
                 PageRequest.of(page.orElse(0),
                         10,
                         Sort.Direction.ASC, sortBy.orElse("id")));
+
+        LOGGER.info("RECEIVED ALL PRODUCTS");
         return ResponseEntity.ok().body(products);
     }
 
     @GetMapping("/{value}")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<Product>> getProductsByValue(@PathVariable("value") String value) {
         Pattern categoryIdPattern = Pattern.compile("category_id-");
         Matcher categoryIdMatcher = categoryIdPattern.matcher(value);
@@ -64,6 +68,8 @@ public class ProductController {
             productForReturn.setName(product.getName());
 
             products.add(productForReturn);
+
+            LOGGER.info(String.format("RECEIVED PRODUCT WITH ID  = %s", value));
         } else if (categoryIdMatcher.find()) {
             Long categoryId = Long.parseLong(value.split("-")[1]);
 
@@ -71,17 +77,22 @@ public class ProductController {
                     .stream()
                     .filter(product -> product.getCategory().getId().equals(categoryId))
                     .collect(Collectors.toList());
+
+            LOGGER.info(String.format("RECEIVED PRODUCT WITH CATEGORY ID = %d", categoryId));
         } else {
             products = productRepository.findAll()
                     .stream()
                     .filter(product -> product.getName().equals(value))
                     .collect(Collectors.toList());
+
+            LOGGER.info(String.format("RECEIVED PRODUCT WITH NAME = %s", value));
         }
 
         return ResponseEntity.ok().body(products);
     }
 
     @PostMapping()
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product productForCreate = null;
 
@@ -98,24 +109,29 @@ public class ProductController {
             productForCreate = productRepository.save(product);
         }
 
+        LOGGER.info("ADDED NEW PRODUCT");
         return ResponseEntity.status(201).body(productForCreate);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Product> updateProduct(
             @PathVariable("id") Product productFromDb,
             @RequestBody Product product) {
         product.setCategory(productFromDb.getCategory());
         BeanUtils.copyProperties(product, productFromDb, "id");
 
+        LOGGER.info(String.format("UPDATED PRODUCT WITH ID  = %d", productFromDb.getId()));
         return ResponseEntity.ok().body(productRepository.save(productFromDb));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("id-" + id));
         productRepository.deleteById(id);
 
+        LOGGER.info(String.format("DELETED PRODUCT WITH ID  = %d", id));
         return ResponseEntity.ok().body(product);
     }
 }

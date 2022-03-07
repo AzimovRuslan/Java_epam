@@ -27,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProductControllerIntegrationTest {
+class ProductControllerIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -50,18 +50,24 @@ public class ProductControllerIntegrationTest {
     @Test
     void whenCreateProduct_thenStatus201() {
         Category superCategory = new Category("Outwear");
-        ResponseEntity<Category> responseSuperCategory = restTemplate.postForEntity("/category", superCategory, Category.class);
+        ResponseEntity<Category> responseSuperCategory = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/category", superCategory, Category.class);
 
         Set<Category> categories = new HashSet<>();
         categories.add(superCategory);
 
         Category category = new Category("Jackets");
         category.setSuperCategories(categories);
-        ResponseEntity<Category> responseCategory = restTemplate.postForEntity("/category", category, Category.class);
+        ResponseEntity<Category> responseCategory = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/category", category, Category.class);
 
         Product product = new Product("Jacket");
         product.setCategory(category);
-        ResponseEntity<Product> responseProduct = restTemplate.postForEntity("/product", product, Product.class);
+        ResponseEntity<Product> responseProduct = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/product", product, Product.class);
 
         assertThat(responseProduct.getStatusCode(), is(HttpStatus.CREATED));
         assertThat(Objects.requireNonNull(responseProduct.getBody()).getId(), notNullValue());
@@ -72,7 +78,9 @@ public class ProductControllerIntegrationTest {
     @Test
     void whenGetProductById_thenStatus200() {
         Long id = getTestProduct().getId();
-        Product[] products = restTemplate.getForObject("/product/{id}", Product[].class, id);
+        Product[] products = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/product/{id}", Product[].class, id);
 
         assertThat(products[0].getName(), is("Jacket"));
     }
@@ -80,7 +88,9 @@ public class ProductControllerIntegrationTest {
     @Test
     void whenGetProductByName_thenStatus200() {
         String value = getTestProduct().getName();
-        Product[] products = restTemplate.getForObject("/product/{value}", Product[].class, value);
+        Product[] products = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/product/{value}", Product[].class, value);
 
         assertThat(products[0].getName(), is("Jacket"));
     }
@@ -88,7 +98,9 @@ public class ProductControllerIntegrationTest {
     @Test
     void whenGetProductByCategoryId_thenStatus200() {
         String value = "category_id-" + getTestProduct().getCategory().getId();
-        Product[] products = restTemplate.getForObject("/product/{value}", Product[].class, value);
+        Product[] products = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/product/{value}", Product[].class, value);
 
         assertThat(products[0].getName(), is("Jacket"));
     }
@@ -103,7 +115,9 @@ public class ProductControllerIntegrationTest {
 
         HttpEntity<Product> entity = new HttpEntity<>(product);
 
-        ResponseEntity<Product> responseEntity = restTemplate.exchange("/product/{id}", HttpMethod.PUT, entity,
+        ResponseEntity<Product> responseEntity = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/product/{id}", HttpMethod.PUT, entity,
                 Product.class, id);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
@@ -115,7 +129,9 @@ public class ProductControllerIntegrationTest {
     void givenProduct_whenDeleteCategory_thenStatus200() {
         Long id = getTestProduct().getId();
 
-        ResponseEntity<Product> responseEntity = restTemplate.exchange("/product/{id}", HttpMethod.DELETE, null,
+        ResponseEntity<Product> responseEntity = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/product/{id}", HttpMethod.DELETE, null,
                 Product.class, id);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));

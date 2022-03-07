@@ -13,9 +13,9 @@ import java.util.List;
 
 @Component
 public class InitializationDb implements CommandLineRunner {
-    private CategoryRepository categoryRepository;
-    private PriceRepository priceRepository;
-    private ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final PriceRepository priceRepository;
+    private final ProductRepository productRepository;
 
     public InitializationDb(CategoryRepository categoryRepository, PriceRepository priceRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
@@ -37,8 +37,8 @@ public class InitializationDb implements CommandLineRunner {
 
         List<Product> productList = productRepository.findAll();
 
-        for (int i = 0; i < productList.size(); i++) {
-            initializationPrices(productList.get(i), randomNumber(1000), "BYN");
+        for (Product product : productList) {
+            initializationPrices(product, randomNumber(1000), "BYN");
         }
     }
 

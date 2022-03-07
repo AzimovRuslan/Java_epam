@@ -19,7 +19,7 @@ public class Category {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "categories_superCategories",
+            name = "categories_super_categories",
             joinColumns = {@JoinColumn(name = "category_id")},
             inverseJoinColumns = {@JoinColumn(name = "superCategory_id")}
     )

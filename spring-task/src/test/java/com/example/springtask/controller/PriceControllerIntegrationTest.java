@@ -51,22 +51,30 @@ class PriceControllerIntegrationTest {
     @Test
     void whenCreatePrice_thenStatus201() {
         Category superCategory = new Category("Outwear");
-        ResponseEntity<Category> responseSuperCategory = restTemplate.postForEntity("/category", superCategory, Category.class);
+        ResponseEntity<Category> responseSuperCategory = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/category", superCategory, Category.class);
 
         Set<Category> categories = new HashSet<>();
         categories.add(superCategory);
 
         Category category = new Category("Jackets");
         category.setSuperCategories(categories);
-        ResponseEntity<Category> responseCategory = restTemplate.postForEntity("/category", category, Category.class);
+        ResponseEntity<Category> responseCategory = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/category", category, Category.class);
 
         Product product = new Product("Jacket");
         product.setCategory(category);
-        ResponseEntity<Product> responseProduct = restTemplate.postForEntity("/product", product, Product.class);
+        ResponseEntity<Product> responseProduct = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/product", product, Product.class);
 
         Price price = new Price(100, "BYN");
         price.setProduct(product);
-        ResponseEntity<Price> responsePrice = restTemplate.postForEntity("/price", price, Price.class);
+        ResponseEntity<Price> responsePrice = restTemplate
+                .withBasicAuth("admin", "admin")
+                .postForEntity("/price", price, Price.class);
 
         assertThat(responsePrice.getStatusCode(), is(HttpStatus.CREATED));
         assertThat(Objects.requireNonNull(responsePrice.getBody()).getId(), notNullValue());
@@ -87,7 +95,9 @@ class PriceControllerIntegrationTest {
         String currency = getTestPrice().getCurrency();
         String value = "currency-" + currency;
 
-        Price[] prices = restTemplate.getForObject("/price/{value}", Price[].class, value);
+        Price[] prices = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/price/{value}", Price[].class, value);
 
         assertThat(prices[0].getCurrency(), is("BYN"));
         assertThat(prices[0].getConventionalUnit(), is(100));
@@ -100,7 +110,9 @@ class PriceControllerIntegrationTest {
 
         String value = "price_range-99-110";
 
-        Price[] prices = restTemplate.getForObject("/price/{value}", Price[].class, value);
+        Price[] prices = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/price/{value}", Price[].class, value);
 
         assertThat(prices[0].getCurrency(), is("BYN"));
         assertThat(prices[0].getConventionalUnit(), is(100));
@@ -109,7 +121,9 @@ class PriceControllerIntegrationTest {
     @Test
     void whenGetProductById_thenStatus200() {
         Long id = getTestPrice().getId();
-        Price[] prices = restTemplate.getForObject("/price/{id}", Price[].class, id);
+        Price[] prices = restTemplate
+                .withBasicAuth("user", "user")
+                .getForObject("/price/{id}", Price[].class, id);
 
         assertThat(prices[0].getConventionalUnit(), is(100));
         assertThat(prices[0].getCurrency(), is("BYN"));
@@ -127,8 +141,9 @@ class PriceControllerIntegrationTest {
 
         HttpEntity<Price> entity = new HttpEntity<>(price);
 
-        ResponseEntity<Price> responseEntity = restTemplate.exchange("/price/{id}", HttpMethod.PUT, entity,
-                Price.class, id);
+        ResponseEntity<Price> responseEntity = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/price/{id}", HttpMethod.PUT, entity, Price.class, id);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
         assertThat(Objects.requireNonNull(responseEntity.getBody()).getId(), notNullValue());
@@ -140,7 +155,9 @@ class PriceControllerIntegrationTest {
     void givenProduct_whenDeleteCategory_thenStatus200() {
         Long id = getTestPrice().getId();
 
-        ResponseEntity<Price> responseEntity = restTemplate.exchange("/price/{id}", HttpMethod.DELETE, null,
+        ResponseEntity<Price> responseEntity = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/price/{id}", HttpMethod.DELETE, null,
                 Price.class, id);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
